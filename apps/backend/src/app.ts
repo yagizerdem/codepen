@@ -7,6 +7,7 @@ import authRoute from "@routes/auth.route.js";
 import penRoute from "@routes/pen.route.js";
 import likeRoute from "@routes/like.route.js";
 import commentRoute from "@routes/comment.route.js";
+import blogRoute from "@routes/blog.route.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 
@@ -48,6 +49,7 @@ app.use("/api/auth", authRoute);
 app.use("/api/pens", penRoute);
 app.use("/api/likes", likeRoute);
 app.use("/api/comments", commentRoute);
+app.use("/api/blogs", blogRoute);
 
 //  404 + error handler (AFTER all routes)
 app.use((_req, _res, next) =>
