@@ -3,20 +3,39 @@ import type { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import { AppError } from "@/utils/error.js";
 import authRoute from "@routes/auth.route.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerJSDoc from "swagger-jsdoc";
 
 export const app = express();
 
-// 1. Parsers / global middleware
+// Parsers / global middleware
 app.use(cors({ origin: process.env.CORS_ORIGIN, credentials: true }));
 app.use(express.json());
 
-// 2. Routes
+// swagger setup
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "CodePen API",
+      version: "1.0.0",
+      description: "Backend API for the CodePen clone",
+    },
+  },
+  apis: ["./src/routes/*.ts"], // files containing annotations as above
+};
+const swaggerSpec = swaggerJSDoc(options);
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+//
+
+// Routes
 app.get("/health", (_req, res) => {
   res.json({ status: "ok", uptime: process.uptime() });
 });
 app.use("/api/auth", authRoute);
 
-// 3. 404 + error handler (AFTER all routes)
+//  404 + error handler (AFTER all routes)
 app.use((_req, _res, next) =>
   next(AppError.notFound({ message: "Route not found" })),
 );
