@@ -10,8 +10,31 @@ import User from "@/models/user.entity.js";
 import bcrypt from "bcrypt";
 import { ApiResponse } from "@/utils/api-resonse.js";
 import { parseBody } from "@/utils/validate.js";
+import { REFRESH_TOKEN_TTL_MS } from "@/utils/token.js";
 import * as userService from "@/services/user-service.js";
 import * as tokenService from "@/services/token-service.js";
+
+const REFRESH_COOKIE = "refreshToken";
+const REFRESH_COOKIE_OPTIONS = {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "lax",
+  path: "/api/auth",
+} as const;
+
+function setRefreshCookie(res: Response, refreshToken: string) {
+  res.cookie(REFRESH_COOKIE, refreshToken, {
+    ...REFRESH_COOKIE_OPTIONS,
+    maxAge: REFRESH_TOKEN_TTL_MS,
+  });
+}
+
+/** Refresh token from the httpOnly cookie, if present. */
+function readRefreshToken(req: Request): string | undefined {
+  const fromCookie: unknown = req.cookies?.[REFRESH_COOKIE];
+  if (typeof fromCookie === "string" && fromCookie) return fromCookie;
+  return undefined;
+}
 
 export async function register(req: Request, res: Response) {
   const input = parseBody(registerSchema, req.body);
@@ -51,6 +74,7 @@ export async function login(req: Request, res: Response) {
   }
 
   const tokens = await tokenService.issueTokens(user.id);
+  setRefreshCookie(res, tokens.refreshToken);
 
   return res.status(HttpStatusCode.OK).json(
     ApiResponse.ok({
@@ -61,8 +85,11 @@ export async function login(req: Request, res: Response) {
 }
 
 export async function logout(req: Request, res: Response) {
-  const { refreshToken } = parseBody(refreshTokenSchema, req.body);
-  await tokenService.revokeRefreshToken(refreshToken);
+  const refreshToken = readRefreshToken(req) ?? req.body?.refreshToken;
+  if (typeof refreshToken === "string" && refreshToken) {
+    await tokenService.revokeRefreshToken(refreshToken);
+  }
+  res.clearCookie(REFRESH_COOKIE, REFRESH_COOKIE_OPTIONS);
 
   return res
     .status(HttpStatusCode.OK)
@@ -70,8 +97,11 @@ export async function logout(req: Request, res: Response) {
 }
 
 export async function refresh(req: Request, res: Response) {
-  const { refreshToken } = parseBody(refreshTokenSchema, req.body);
+  const refreshToken =
+    readRefreshToken(req) ??
+    parseBody(refreshTokenSchema, req.body).refreshToken;
   const tokens = await tokenService.rotateRefreshToken(refreshToken);
+  setRefreshCookie(res, tokens.refreshToken);
 
   return res
     .status(HttpStatusCode.OK)

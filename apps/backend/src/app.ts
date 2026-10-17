@@ -1,6 +1,7 @@
 import express from "express";
 import type { NextFunction, Request, Response } from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 import { AppError } from "@/utils/error.js";
 import authRoute from "@routes/auth.route.js";
 import swaggerUi from "swagger-ui-express";
@@ -11,6 +12,7 @@ export const app = express();
 // Parsers / global middleware
 app.use(cors({ origin: process.env.CORS_ORIGIN, credentials: true }));
 app.use(express.json());
+app.use(cookieParser());
 
 // swagger setup
 const options = {
