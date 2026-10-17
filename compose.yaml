@@ -1,0 +1,52 @@
+services:
+  #db
+  mongodb:
+    image: mongodb/mongodb-community-server:latest
+    container_name: mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017" # Correct syntax for port mapping
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - mongodb_network
+    command: ["mongod", "--bind_ip_all"]
+    healthcheck:
+      test:
+        - CMD
+        - mongosh
+        - "mongodb://localhost:27017/admin"
+        - "--eval=db.runCommand({ping:1})"
+      retries: 3
+      timeout: 5s
+
+  #mongo-express
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+    restart: unless-stopped
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongodb # Correct service name
+      ME_CONFIG_MONGODB_ADMINUSERNAME: user
+      ME_CONFIG_MONGODB_ADMINPASSWORD: root
+      ME_CONFIG_MONGODB_URL: mongodb://user:root@mongodb:27017/
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+      ME_CONFIG_BASICAUTH_USERNAME: user # web UI login
+      ME_CONFIG_BASICAUTH_PASSWORD: root
+    depends_on:
+      - mongodb
+    networks:
+      - mongodb_network
+
+volumes:
+  mongodb_data:
+    driver: local
+
+networks:
+  mongodb_network:
+    driver: bridge
