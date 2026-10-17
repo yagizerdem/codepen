@@ -1,4 +1,4 @@
-import HttpStatusCode from "./http-status-code.js";
+import HttpStatusCode from "@utils/http-status-code.js";
 
 /** Form validation errors keyed by field name, e.g. { email: ["Invalid email"] } */
 export type FieldErrors = Record<string, string[]>;
@@ -36,7 +36,9 @@ export class AppError extends Error {
     return new AppError({ statusCode: HttpStatusCode.BAD_REQUEST, message });
   }
 
-  static unauthorized({ message = "Unauthorized" }: Partial<FactoryOptions> = {}) {
+  static unauthorized({
+    message = "Unauthorized",
+  }: Partial<FactoryOptions> = {}) {
     return new AppError({ statusCode: HttpStatusCode.UNAUTHORIZED, message });
   }
 

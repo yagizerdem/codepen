@@ -2,6 +2,7 @@ import express from "express";
 import type { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import { AppError } from "@/utils/error.js";
+import authRoute from "@routes/auth.route.js";
 
 export const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.get("/health", (_req, res) => {
   res.json({ status: "ok", uptime: process.uptime() });
 });
+app.use("/api/auth", authRoute);
 
 // 3. 404 + error handler (AFTER all routes)
 app.use((_req, _res, next) => next(AppError.notFound({ message: "Route not found" })));
