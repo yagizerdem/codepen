@@ -2,7 +2,7 @@ const footerLinks = [
   { label: "Docs", href: "/documentation" },
   { label: "Blog", href: "/blog" },
   { label: "Support", href: "/settings" },
-  { label: "Privacy & Terms", href: "/trending" },
+  { label: "Privacy & Terms", href: "/privacy-terms" },
 ];
 
 export function AppFooter() {
