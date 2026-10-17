@@ -4,6 +4,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { AppError } from "@/utils/error.js";
 import authRoute from "@routes/auth.route.js";
+import penRoute from "@routes/pen.route.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 
@@ -41,6 +42,7 @@ app.get("/health", (_req, res) => {
   res.json({ status: "ok", uptime: process.uptime() });
 });
 app.use("/api/auth", authRoute);
+app.use("/api/pens", penRoute);
 
 //  404 + error handler (AFTER all routes)
 app.use((_req, _res, next) =>
