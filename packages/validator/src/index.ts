@@ -1,1 +1,1 @@
-export * from "./register.validator.js";
+export * from "./auth.validator.js";

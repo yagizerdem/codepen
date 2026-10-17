@@ -21,6 +21,11 @@ const options = {
       version: "1.0.0",
       description: "Backend API for the CodePen clone",
     },
+    components: {
+      securitySchemes: {
+        bearerAuth: { type: "http", scheme: "bearer", bearerFormat: "JWT" },
+      },
+    },
   },
   apis: ["./src/routes/*.ts"], // files containing annotations as above
 };

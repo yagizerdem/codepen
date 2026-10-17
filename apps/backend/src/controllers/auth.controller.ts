@@ -1,41 +1,32 @@
 import HttpStatusCode from "@/utils/http-status-code.js";
 import type { Request, Response } from "express";
-import { registerSchema } from "@codepen/validator";
-import { z } from "zod";
-import { AppError, type FieldErrors } from "@/utils/error.js";
+import {
+  loginSchema,
+  refreshTokenSchema,
+  registerSchema,
+} from "@codepen/validator";
+import { AppError } from "@/utils/error.js";
 import User from "@/models/user.entity.js";
 import bcrypt from "bcrypt";
 import { ApiResponse } from "@/utils/api-resonse.js";
+import { parseBody } from "@/utils/validate.js";
 import * as userService from "@/services/user-service.js";
+import * as tokenService from "@/services/token-service.js";
 
 export async function register(req: Request, res: Response) {
-  const body = req.body;
-  const result = registerSchema.safeParse(body);
-  if (!result.success) {
-    const { fieldErrors, formErrors } = z.flattenError(result.error);
-    const invalidFields = Object.keys(fieldErrors);
-
-    throw new AppError({
-      message: invalidFields.length
-        ? `Validation failed for: ${invalidFields.join(", ")}`
-        : (formErrors[0] ?? ""),
-      fieldErrors: fieldErrors as FieldErrors,
-      statusCode: HttpStatusCode.BAD_REQUEST,
-      isOperational: true,
-    });
-  }
+  const input = parseBody(registerSchema, req.body);
 
   // validation
-  await userService.ensureUserNotExistByEmail(result.data.email);
-  await userService.ensureUserNotExistByUsername(result.data.username);
+  await userService.ensureUserNotExistByEmail(input.email);
+  await userService.ensureUserNotExistByUsername(input.username);
 
-  const hash: string = await bcrypt.hash(result.data.password, 10);
+  const hash: string = await bcrypt.hash(input.password, 10);
 
   const user = await User.create({
-    email: result.data.email,
+    email: input.email,
     passwordHash: hash,
-    username: result.data.username,
-    ...(result.data.age !== undefined && { age: result.data.age }),
+    username: input.username,
+    ...(input.age !== undefined && { age: input.age }),
   });
 
   return res.status(HttpStatusCode.CREATED).json(
@@ -44,4 +35,49 @@ export async function register(req: Request, res: Response) {
       message: "User successfully registered",
     }),
   );
+}
+
+export async function login(req: Request, res: Response) {
+  const input = parseBody(loginSchema, req.body);
+
+  const user = await User.findOne({ email: input.email }).select(
+    "+passwordHash",
+  );
+  // Same error for unknown email and wrong password to avoid user enumeration.
+  const valid =
+    user !== null && (await bcrypt.compare(input.password, user.passwordHash));
+  if (!user || !valid) {
+    throw AppError.unauthorized({ message: "Invalid email or password" });
+  }
+
+  const tokens = await tokenService.issueTokens(user.id);
+
+  return res.status(HttpStatusCode.OK).json(
+    ApiResponse.ok({
+      message: "Logged in successfully",
+      data: { user, ...tokens },
+    }),
+  );
+}
+
+export async function logout(req: Request, res: Response) {
+  const { refreshToken } = parseBody(refreshTokenSchema, req.body);
+  await tokenService.revokeRefreshToken(refreshToken);
+
+  return res
+    .status(HttpStatusCode.OK)
+    .json(ApiResponse.ok({ message: "Logged out successfully" }));
+}
+
+export async function refresh(req: Request, res: Response) {
+  const { refreshToken } = parseBody(refreshTokenSchema, req.body);
+  const tokens = await tokenService.rotateRefreshToken(refreshToken);
+
+  return res
+    .status(HttpStatusCode.OK)
+    .json(ApiResponse.ok({ message: "Token refreshed", data: tokens }));
+}
+
+export async function me(req: Request, res: Response) {
+  return res.status(HttpStatusCode.OK).json(ApiResponse.ok({ data: req.user }));
 }

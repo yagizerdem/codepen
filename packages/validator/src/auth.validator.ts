@@ -15,3 +15,16 @@ export const registerSchema = z.object({
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;
+
+export const loginSchema = z.object({
+  email: z.string().trim().toLowerCase().pipe(z.email("Invalid email")),
+  password: z.string().min(1, "Password is required"),
+});
+
+/** Body of /auth/refresh and /auth/logout. */
+export const refreshTokenSchema = z.object({
+  refreshToken: z.string().min(1, "Refresh token is required"),
+});
+
+export type LoginInput = z.infer<typeof loginSchema>;
+export type RefreshTokenInput = z.infer<typeof refreshTokenSchema>;
