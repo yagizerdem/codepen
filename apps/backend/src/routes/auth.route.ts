@@ -197,4 +197,23 @@ router.post("/logout", asyncHandler(authController.logout));
  */
 router.get("/me", requireAuth, asyncHandler(authController.me));
 
+/**
+ * @openapi
+ * /api/auth/is-authenticated:
+ *   get:
+ *     tags: [Auth]
+ *     summary: Check if the user is authenticated
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: The current user
+ *       401:
+ *         description: Missing or invalid access token
+ */
+router.get(
+  "/is-authenticated",
+  requireAuth,
+  asyncHandler(authController.isAuthenticated),
+);
 export default router;

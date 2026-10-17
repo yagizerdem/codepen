@@ -96,3 +96,7 @@ export async function refresh(req: Request, res: Response) {
 export async function me(req: Request, res: Response) {
   return res.status(HttpStatusCode.OK).json(ApiResponse.ok({ data: req.user }));
 }
+
+export async function isAuthenticated(req: Request, res: Response) {
+  return res.status(HttpStatusCode.OK).json(ApiResponse.ok({ data: req.user }));
+}
