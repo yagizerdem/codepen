@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "workspaces": [
-    "apps/backend",
-    "apps/frontend"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {},
   "devDependencies": {

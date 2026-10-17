@@ -1,0 +1,9 @@
+{
+  "name": "@codepen/validator",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

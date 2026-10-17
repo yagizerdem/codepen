@@ -17,7 +17,9 @@ app.get("/health", (_req, res) => {
 app.use("/api/auth", authRoute);
 
 // 3. 404 + error handler (AFTER all routes)
-app.use((_req, _res, next) => next(AppError.notFound({ message: "Route not found" })));
+app.use((_req, _res, next) =>
+  next(AppError.notFound({ message: "Route not found" })),
+);
 
 app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
   const statusCode = error instanceof AppError ? error.statusCode : 500;
