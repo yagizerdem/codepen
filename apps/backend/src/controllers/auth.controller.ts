@@ -6,6 +6,7 @@ import { AppError, type FieldErrors } from "@/utils/error.js";
 import User from "@/models/user.entity.js";
 import bcrypt from "bcrypt";
 import { ApiResponse } from "@/utils/api-resonse.js";
+import * as userService from "@/services/user-service.js";
 
 export async function register(req: Request, res: Response) {
   const body = req.body;
@@ -24,6 +25,10 @@ export async function register(req: Request, res: Response) {
     });
   }
 
+  // validation
+  await userService.ensureUserNotExistByEmail(result.data.email);
+  await userService.ensureUserNotExistByUsername(result.data.username);
+
   const hash: string = await bcrypt.hash(result.data.password, 10);
 
   const user = await User.create({
@@ -33,12 +38,10 @@ export async function register(req: Request, res: Response) {
     ...(result.data.age !== undefined && { age: result.data.age }),
   });
 
-  return res
-    .status(HttpStatusCode.CREATED)
-    .json(
-      ApiResponse.created({
-        data: user,
-        message: "User successfully registered",
-      }),
-    );
+  return res.status(HttpStatusCode.CREATED).json(
+    ApiResponse.created({
+      data: user,
+      message: "User successfully registered",
+    }),
+  );
 }
