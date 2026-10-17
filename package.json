@@ -1,0 +1,13 @@
+{
+  "name": "@codepen",
+  "version": "1.0.0",
+  "description": "",
+  "workspaces": [
+    "apps/backend",
+    "apps/frontend"
+  ],
+  "scripts": {},
+  "devDependencies": {
+    "typescript": "^7.0.2"
+  }
+}
