@@ -5,6 +5,8 @@ import cookieParser from "cookie-parser";
 import { AppError } from "@/utils/error.js";
 import authRoute from "@routes/auth.route.js";
 import penRoute from "@routes/pen.route.js";
+import likeRoute from "@routes/like.route.js";
+import commentRoute from "@routes/comment.route.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 
@@ -44,6 +46,8 @@ app.get("/health", (_req, res) => {
 });
 app.use("/api/auth", authRoute);
 app.use("/api/pens", penRoute);
+app.use("/api/likes", likeRoute);
+app.use("/api/comments", commentRoute);
 
 //  404 + error handler (AFTER all routes)
 app.use((_req, _res, next) =>
