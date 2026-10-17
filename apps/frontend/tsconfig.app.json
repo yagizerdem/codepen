@@ -23,7 +23,13 @@
     "noFallthroughCasesInSwitch": true,
 
     /* Path alias */
-    "paths": { "@/*": ["./src/*"] }
+    "paths": {
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@providers/*": ["./src/providers/*"]
+    }
   },
   "include": ["src"]
 }
