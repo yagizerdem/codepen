@@ -1,13 +1,12 @@
 import express from "express";
 import type { NextFunction, Request, Response } from "express";
 import cors from "cors";
-import { config } from "@/config.js";
 import { AppError } from "@/utils/error.js";
 
 export const app = express();
 
 // 1. Parsers / global middleware
-app.use(cors({ origin: config.corsOrigin, credentials: true }));
+app.use(cors({ origin: process.env.CORS_ORIGIN, credentials: true }));
 app.use(express.json());
 
 // 2. Routes
@@ -16,7 +15,7 @@ app.get("/health", (_req, res) => {
 });
 
 // 3. 404 + error handler (AFTER all routes)
-app.use((_req, _res, next) => next(new AppError(404, "Route not found")));
+app.use((_req, _res, next) => next(AppError.notFound({ message: "Route not found" })));
 
 app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
   const statusCode = error instanceof AppError ? error.statusCode : 500;
@@ -27,6 +26,9 @@ app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
     error: {
       message: statusCode >= 500 ? "Internal server error" : error.message,
       code: statusCode,
+      ...(error instanceof AppError && error.fieldErrors
+        ? { fieldErrors: error.fieldErrors }
+        : {}),
     },
   });
 });

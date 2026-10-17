@@ -1,9 +1,6 @@
-import { app } from "@src/app.js";
-import { config } from "./config.js";
+import "@/config.js"; // load env
 
-const server = app.listen(config.port, () => {
-  console.log(`[${config.env}] listening on http://localhost:${config.port}`);
-});
+import { app } from "@/app.js";
 
 function shutdown(signal: string): void {
   console.log(`${signal} received, closing server...`);
@@ -13,3 +10,10 @@ function shutdown(signal: string): void {
 
 process.on("SIGTERM", () => shutdown("SIGTERM"));
 process.on("SIGINT", () => shutdown("SIGINT"));
+
+const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
+const NODE_ENV = process.env.NODE_ENV ?? "development";
+
+const server = app.listen(PORT, () => {
+  console.log(`[${NODE_ENV}] listening on http://localhost:${PORT}`);
+});
