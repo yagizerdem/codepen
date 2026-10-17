@@ -1,0 +1,28 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Backend: Debug (tsx)",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/apps/backend",
+      "runtimeArgs": ["--import", "tsx", "--env-file-if-exists=.env"],
+      "args": ["src/server.ts"],
+      "env": { "NODE_ENV": "development" },
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "name": "Backend: Debug (watch)",
+      "type": "node",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/apps/backend",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}
