@@ -1,14 +1,8 @@
-import { Button } from "@components/ui/button";
-import { AppHeader } from "./components/app-header";
-import Box from "./components/box";
+import { RouterProvider } from "react-router";
+import router from "@/router";
 
 function App() {
-  return (
-    <div className="flex flex-col w-screen h-screen overflow-y-hidden min-w-0">
-      <AppHeader username="fucker" />
-      <Box className="mt-20" />
-    </div>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
