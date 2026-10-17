@@ -1,4 +1,4 @@
-import { isValidObjectId } from "mongoose";
+import mongoose, { isValidObjectId } from "mongoose";
 import type { CreatePenInput, UpdatePenInput } from "@codepen/validator";
 import Pen from "@/models/pen.entity.js";
 import { AppError } from "@/utils/error.js";
@@ -6,7 +6,11 @@ import HttpStatusCode from "@/utils/http-status-code.js";
 
 export const PEN_CREATION_COOLDOWN = 1000 * 60 * 5; // 5 minutes
 
-export async function createPen(userId: string, input: CreatePenInput) {
+export async function createPen(
+  userId: string,
+  input: CreatePenInput,
+  session?: mongoose.ClientSession,
+) {
   const latestPen = await Pen.findOne(
     {
       userId,
@@ -15,7 +19,7 @@ export async function createPen(userId: string, input: CreatePenInput) {
     {
       sort: { createdAt: -1 },
     },
-  );
+  ).session(session ?? null);
 
   // take date diff, only create a new pen if the latest one was created more than a certain time ago
   if (latestPen) {
@@ -50,6 +54,7 @@ export async function updatePen(
   userId: string,
   penId: string,
   input: UpdatePenInput,
+  session?: mongoose.ClientSession,
 ) {
   if (!isValidObjectId(penId)) throw penNotFound(penId);
 
@@ -60,15 +65,21 @@ export async function updatePen(
     { _id: penId, userId },
     { $set: fields },
     { new: true },
-  );
+  ).session(session ?? null);
   if (!pen) throw penNotFound(penId);
 
   return pen;
 }
 
-export async function deletePen(userId: string, penId: string) {
+export async function deletePen(
+  userId: string,
+  penId: string,
+  session?: mongoose.ClientSession,
+) {
   if (!isValidObjectId(penId)) throw penNotFound(penId);
 
-  const pen = await Pen.findOneAndDelete({ _id: penId, userId });
+  const pen = await Pen.findOneAndDelete({ _id: penId, userId }).session(
+    session ?? null,
+  );
   if (!pen) throw penNotFound(penId);
 }
