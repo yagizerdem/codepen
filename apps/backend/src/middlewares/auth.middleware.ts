@@ -1,17 +1,19 @@
 import type { NextFunction, Request, Response } from "express";
 import User from "@/models/user.entity.js";
 import { AppError } from "@/utils/error.js";
+import { readAccessToken } from "@/utils/auth-cookies.js";
 import { verifyAccessToken } from "@/utils/token.js";
 
-/** Requires a valid `Authorization: Bearer <accessToken>` header and sets `req.user`. */
+/** Requires a valid access token (cookie, or `Authorization: Bearer`) and sets `req.user`. */
 export async function requireAuth(
   req: Request,
   _res: Response,
   next: NextFunction,
 ) {
   try {
-    const [scheme, token] = req.headers.authorization?.split(" ") ?? [];
-    if (scheme !== "Bearer" || !token) {
+    const [scheme, bearer] = req.headers.authorization?.split(" ") ?? [];
+    const token = readAccessToken(req) ?? (scheme === "Bearer" ? bearer : undefined);
+    if (!token) {
       throw AppError.unauthorized({ message: "Missing access token" });
     }
 

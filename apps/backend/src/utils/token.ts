@@ -1,7 +1,7 @@
 import { createHash, randomBytes } from "node:crypto";
 import { jwtVerify, SignJWT } from "jose";
 
-const ACCESS_TOKEN_TTL = "15m";
+export const ACCESS_TOKEN_TTL_MS = 15 * 60 * 1000;
 export const REFRESH_TOKEN_TTL_MS = 60 * 24 * 60 * 60 * 1000; // 60 days
 
 function getSecret(): Uint8Array {
@@ -15,7 +15,7 @@ export function signAccessToken(userId: string): Promise<string> {
     .setProtectedHeader({ alg: "HS256" })
     .setSubject(userId)
     .setIssuedAt()
-    .setExpirationTime(ACCESS_TOKEN_TTL)
+    .setExpirationTime(Math.floor((Date.now() + ACCESS_TOKEN_TTL_MS) / 1000))
     .sign(getSecret());
 }
 
