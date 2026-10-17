@@ -1,17 +1,8 @@
 import express from "express";
 import type { NextFunction, Request, Response } from "express";
 import cors from "cors";
-import { config } from "./config.js";
-
-export class HttpError extends Error {
-  constructor(
-    public statusCode: number,
-    message: string,
-  ) {
-    super(message);
-    this.name = "HttpError";
-  }
-}
+import { config } from "@/config.js";
+import { AppError } from "@/utils/error.js";
 
 export const app = express();
 
@@ -25,10 +16,10 @@ app.get("/health", (_req, res) => {
 });
 
 // 3. 404 + error handler (AFTER all routes)
-app.use((_req, _res, next) => next(new HttpError(404, "Route not found")));
+app.use((_req, _res, next) => next(new AppError(404, "Route not found")));
 
 app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
-  const statusCode = error instanceof HttpError ? error.statusCode : 500;
+  const statusCode = error instanceof AppError ? error.statusCode : 500;
   if (statusCode >= 500) console.error(error);
 
   res.status(statusCode).json({

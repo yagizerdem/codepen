@@ -7,7 +7,11 @@
     "types": ["node"],
     "paths": {
       "@/*": ["./src/*"],
-      "@/utils": ["./src/utils/*"]
+      "@/controllers/*": ["./src/controllers/*"],
+      "@/middlewares/*": ["./src/middlewares/*"],
+      "@/models/*": ["./src/models/*"],
+      "@/services/*": ["./src/services/*"],
+      "@/utils/*": ["./src/utils/*"]
     }
   },
   "include": ["src"]
