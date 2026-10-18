@@ -1,7 +1,7 @@
 const footerLinks = [
   { label: "Docs", href: "/documentation" },
   { label: "Blog", href: "/blog" },
-  { label: "Support", href: "/settings" },
+  { label: "Support", href: "/support" },
   { label: "Privacy & Terms", href: "/privacy-terms" },
 ];
 
