@@ -9,6 +9,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
+import { useEventEmitter } from "@/hooks/useEventEmitter";
 
 const editors: { language: EditorLanguage; label: string }[] = [
   { language: "html", label: "HTML" },
@@ -20,9 +21,12 @@ interface WorkSpaceProps {
   html?: string;
   css?: string;
   javascript?: string;
+  refreshIframe?: () => void;
 }
 
 export function WorkSpace(props: WorkSpaceProps) {
+  const { eventData } = useEventEmitter<{ data: string }>("refresh-workspace");
+
   const [code, setCode] = useState<Record<EditorLanguage, string>>({
     html: props.html ?? "",
     css: props.css ?? "",
@@ -73,7 +77,7 @@ export function WorkSpace(props: WorkSpaceProps) {
       });
       ifFrameRef.current.src = url;
     }
-  }, [debouncedCode]);
+  }, [debouncedCode, eventData]);
 
   return (
     <div className="flex min-h-0 w-full flex-1 flex-col overflow-hidden">
