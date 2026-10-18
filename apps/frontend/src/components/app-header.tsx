@@ -10,6 +10,9 @@ import {
   User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { useNavigate } from "react-router";
+import { Button } from "@base-ui/react";
 
 const navItems = [
   { label: "Explore", href: "/explore" },
@@ -38,6 +41,8 @@ export function AppHeader({
   hasNotifications = false,
   onLogout,
 }: AppHeaderProps) {
+  const navigation = useNavigate();
+
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-background/95 shadow-[0_1px_8px_rgba(0,0,0,0.4)] backdrop-blur-md ">
       <div className="flex h-16 w-full items-center justify-between gap-3 px-3">
@@ -84,13 +89,13 @@ export function AppHeader({
         </div>
 
         <div className="flex items-center gap-2">
-          <a
-            href="/editor"
-            className="flex h-9 items-center gap-1.5 rounded-lg bg-primary px-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+          <Button
+            onMouseUp={() => navigation("/new-pen")}
+            className="cursor-pointer flex h-9 items-center gap-1.5 rounded-lg bg-primary px-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
           >
             <Plus className="size-4" />
             New Pen
-          </a>
+          </Button>
 
           <button
             type="button"
@@ -102,6 +107,8 @@ export function AppHeader({
               <span className="absolute right-1.5 top-1.5 size-2 rounded-full bg-primary ring-2 ring-background" />
             )}
           </button>
+
+          <ThemeToggle />
 
           <div className="group relative">
             <button
