@@ -32,11 +32,21 @@ export default function NewPenPage() {
             <p>Refresh</p>
           </TooltipContent>
         </Tooltip>
-        <Button className="bg-accent w-fit h-fit flex items-center justify-center align-middle cursor-pointer p-1 rounded-md">
-          <CheckIcon className="h-4 w-4" />
-        </Button>
+
+        <Tooltip>
+          <TooltipTrigger
+            render={
+              <Button className="bg-accent w-fit h-fit flex items-center justify-center align-middle cursor-pointer p-1 rounded-md">
+                <CheckIcon className="h-4 w-4" />
+              </Button>
+            }
+          />
+          <TooltipContent>
+            <p>Save</p>
+          </TooltipContent>
+        </Tooltip>
       </div>
-      <WorkSpace />
+      <WorkSpace html="" css="" javascript="" />
     </AppLayout>
   );
 }
