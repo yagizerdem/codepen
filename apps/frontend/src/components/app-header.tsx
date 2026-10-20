@@ -15,6 +15,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { useNavigate } from "react-router";
 import { Button } from "@components/ui/button";
 import { useAuth } from "@/providers/auth-provider";
+import { useState } from "react";
 
 const navItems = [
   { label: "Explore", href: "/explore" },
@@ -45,6 +46,8 @@ export function AppHeader({
 }: AppHeaderProps) {
   const navigation = useNavigate();
   const { isLoggedIn } = useAuth();
+  const [showRegisterPanel, setShowRegisterPanel] = useState<boolean>(false);
+  const [showLoginPanel, setShowLoginPanel] = useState<boolean>(false);
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 bg-background/95 shadow-[0_1px_8px_rgba(0,0,0,0.4)] backdrop-blur-md ">
@@ -163,11 +166,17 @@ export function AppHeader({
           )}
           {!isLoggedIn && (
             <div className="flex flex-row gap-3">
-              <Button className="cursor-pointer flex h-9 items-center gap-1.5 rounded-lg bg-primary px-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90">
+              <Button
+                onMouseUp={() => setShowRegisterPanel(true)}
+                className="cursor-pointer flex h-9 items-center gap-1.5 rounded-lg bg-primary px-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+              >
                 <KeyRoundIcon className="size-4" />
                 Register
               </Button>
-              <Button className="cursor-pointer flex h-9 items-center gap-1.5 rounded-lg bg-primary px-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90">
+              <Button
+                onMouseUp={() => setShowLoginPanel(true)}
+                className="cursor-pointer flex h-9 items-center gap-1.5 rounded-lg bg-primary px-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
+              >
                 <KeyRoundIcon className="size-4" />
                 Login
               </Button>
