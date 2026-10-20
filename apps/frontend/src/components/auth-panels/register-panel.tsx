@@ -114,9 +114,7 @@ export default function RegisterPanel({
 
   useEffect(() => {
     if (mutation.isError) {
-      console.error(mutation.error);
-
-      toast(mutation.error?.message ?? "An error occurred", {
+      toast(mutation.error.message ?? "An error occurred", {
         position: "top-right",
       });
     }

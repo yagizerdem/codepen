@@ -15,7 +15,7 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { useNavigate } from "react-router";
 import { Button } from "@components/ui/button";
 import { useAuth } from "@/providers/auth-provider";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useRef, useState } from "react";
 import RegisterPanel from "./auth-panels/register-panel";
 import LoginPanel from "./auth-panels/login-panel";
 import gsap from "gsap";

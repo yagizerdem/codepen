@@ -1,5 +1,4 @@
 import express from "express";
-import type { NextFunction, Request, Response } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { AppError } from "@/utils/error.js";
@@ -10,6 +9,7 @@ import commentRoute from "@routes/comment.route.js";
 import blogRoute from "@routes/blog.route.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
+import globalErrorHandler from "@middlewares/global-error-handler.js";
 
 export const app = express();
 
@@ -56,18 +56,4 @@ app.use((_req, _res, next) =>
   next(AppError.notFound({ message: "Route not found" })),
 );
 
-app.use((error: Error, _req: Request, res: Response, _next: NextFunction) => {
-  const statusCode = error instanceof AppError ? error.statusCode : 500;
-  if (statusCode >= 500) console.error(error);
-
-  res.status(statusCode).json({
-    success: false,
-    error: {
-      message: statusCode >= 500 ? "Internal server error" : error.message,
-      code: statusCode,
-      ...(error instanceof AppError && error.fieldErrors
-        ? { fieldErrors: error.fieldErrors }
-        : {}),
-    },
-  });
-});
+app.use(globalErrorHandler);

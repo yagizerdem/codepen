@@ -1,4 +1,4 @@
-import React, { useState, type FormEvent } from "react";
+import React, { useState, type KeyboardEvent } from "react";
 import { z } from "zod";
 import { loginSchema, type LoginInput } from "@codepen/validator";
 import { Button } from "@/components/ui/button";
@@ -14,10 +14,25 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "cn";
-import { XIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, XIcon } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import API from "@/lib/axios-wrapper";
+import { toast } from "sonner";
 
 type FieldName = keyof z.infer<typeof loginSchema>;
 type FieldErrors = Partial<Record<FieldName, string>>;
+
+interface LoginFormState {
+  email: string;
+  password: string;
+  showPassword: boolean;
+}
+
+const initialFormState: LoginFormState = {
+  email: "",
+  password: "",
+  showPassword: false,
+};
 
 interface LoginPanelProps {
   onSubmit?: (data: LoginInput) => void | Promise<void>;
@@ -28,22 +43,40 @@ interface LoginPanelProps {
 }
 
 export default function LoginPanel({
-  onSubmit,
   onSignUp,
   onClose,
   ref,
   className,
 }: LoginPanelProps) {
+  const [form, setForm] = useState<LoginFormState>(initialFormState);
   const [errors, setErrors] = useState<FieldErrors>({});
-  const [submitting, setSubmitting] = useState(false);
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const form = new FormData(e.currentTarget);
+  function update<K extends keyof LoginFormState>(
+    key: K,
+    value: LoginFormState[K],
+  ) {
+    setForm((prev) => ({ ...prev, [key]: value }));
+  }
+
+  const mutation = useMutation({
+    mutationFn: async (dto: LoginInput) => {
+      return (await API.post("/api/auth/login", dto)).data;
+    },
+    onSuccess: () => {
+      onClose?.();
+      toast("Logged in successfully", { position: "top-right" });
+    },
+    onError: (error) => {
+      toast(error?.message ?? "An error occurred", { position: "top-right" });
+    },
+  });
+
+  function handleSubmit() {
+    if (mutation.isPending) return;
 
     const result = loginSchema.safeParse({
-      email: form.get("email"),
-      password: form.get("password"),
+      email: form.email,
+      password: form.password,
     });
 
     if (!result.success) {
@@ -57,12 +90,11 @@ export default function LoginPanel({
     }
 
     setErrors({});
-    setSubmitting(true);
-    try {
-      await onSubmit?.(result.data);
-    } finally {
-      setSubmitting(false);
-    }
+    mutation.mutate(result.data);
+  }
+
+  function handleKeyDown(e: KeyboardEvent<HTMLDivElement>) {
+    if (e.key === "Enter") handleSubmit();
   }
 
   return (
@@ -95,45 +127,78 @@ export default function LoginPanel({
         </CardAction>
       </CardHeader>
       <CardContent>
-        <form id="login-form" noValidate onSubmit={handleSubmit}>
+        <div id="login-form" onKeyDown={handleKeyDown}>
           <div className="flex flex-col gap-6">
             <div className="grid gap-2">
               <Label htmlFor="login-email">Email</Label>
               <Input
                 id="login-email"
-                name="email"
                 type="email"
                 autoComplete="email"
                 placeholder="m@example.com"
+                value={form.email}
+                onChange={(e) => update("email", e.target.value)}
                 aria-invalid={!!errors.email}
               />
               <FieldError message={errors.email} />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="login-password">Password</Label>
-              <Input
-                id="login-password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                aria-invalid={!!errors.password}
-              />
+              <div className="relative">
+                <Input
+                  id="login-password"
+                  type={form.showPassword ? "text" : "password"}
+                  autoComplete="current-password"
+                  className="pr-10"
+                  value={form.password}
+                  onChange={(e) => update("password", e.target.value)}
+                  aria-invalid={!!errors.password}
+                />
+                <PasswordToggle
+                  visible={form.showPassword}
+                  onToggle={() => update("showPassword", !form.showPassword)}
+                />
+              </div>
               <FieldError message={errors.password} />
             </div>
           </div>
-        </form>
+        </div>
       </CardContent>
       <CardFooter className="flex-col gap-2">
         <Button
-          type="submit"
-          form="login-form"
+          type="button"
           className="w-full cursor-pointer"
-          disabled={submitting}
+          disabled={mutation.isPending}
+          onClick={handleSubmit}
         >
           Login
         </Button>
       </CardFooter>
     </Card>
+  );
+}
+
+function PasswordToggle({
+  visible,
+  onToggle,
+}: {
+  visible: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      tabIndex={-1}
+      aria-label={visible ? "Hide password" : "Show password"}
+      onClick={onToggle}
+      className="absolute inset-y-0 right-0 flex w-10 cursor-pointer items-center justify-center text-muted-foreground hover:text-foreground"
+    >
+      {visible ? (
+        <EyeOffIcon className="size-4" />
+      ) : (
+        <EyeIcon className="size-4" />
+      )}
+    </button>
   );
 }
 
