@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useEffect, useState, type FormEvent } from "react";
 import { z } from "zod";
 import { registerSchema, type RegisterInput } from "@codepen/validator";
@@ -296,6 +295,3 @@ function FieldError({ message }: { message?: string }) {
     </p>
   );
 }
-=======
-export default function RegisterPanel() {}
->>>>>>> 73d56b5 (update app header)
