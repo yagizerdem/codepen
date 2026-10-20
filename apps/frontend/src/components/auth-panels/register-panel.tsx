@@ -1,4 +1,4 @@
-import React, { useState, type FormEvent } from "react";
+import React, { useEffect, useState, type FormEvent } from "react";
 import { z } from "zod";
 import { registerSchema, type RegisterInput } from "@codepen/validator";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "cn";
 import { XIcon } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import API from "@/lib/axios-wrapper";
+import { toast } from "@/components/ui/toast";
 
 const registerFormSchema = registerSchema
   .extend({ confirmPassword: z.string().min(1, "Please repeat your password") })
@@ -42,7 +45,12 @@ export default function RegisterPanel({
   className,
 }: RegisterPanelProps) {
   const [errors, setErrors] = useState<FieldErrors>({});
-  const [submitting, setSubmitting] = useState(false);
+
+  const mutation = useMutation({
+    mutationFn: (dto: RegisterInput) => {
+      return API.post("/api/auth/register", dto);
+    },
+  });
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -68,15 +76,35 @@ export default function RegisterPanel({
     }
 
     setErrors({});
+
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { confirmPassword, ...payload } = result.data;
-    setSubmitting(true);
-    try {
-      await onSubmit?.(payload);
-    } finally {
-      setSubmitting(false);
-    }
+
+    await mutation.mutateAsync(payload);
   }
+
+  useEffect(() => {
+    if (mutation.isError) {
+      toast.add({
+        title: "Error",
+        description: mutation.error.message,
+      });
+    }
+    if (mutation.isSuccess) {
+      toast.add({
+        title: "Success",
+        description: "Account created successfully",
+      });
+    }
+  }, [mutation.isSuccess, mutation.isError]);
+
+  console.log(
+    "data " + mutation.data,
+    "error " + mutation.error,
+    "isSuccess " + mutation.isSuccess,
+    "isError " + mutation.isError,
+    "pending " + mutation.isPending,
+  );
 
   return (
     <Card className={cn("w-full max-w-sm", className)} ref={ref}>
@@ -176,7 +204,7 @@ export default function RegisterPanel({
           type="submit"
           form="register-form"
           className="w-full cursor-pointer"
-          disabled={submitting}
+          disabled={mutation.isPending}
         >
           Register
         </Button>
