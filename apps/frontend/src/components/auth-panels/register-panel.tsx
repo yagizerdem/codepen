@@ -14,7 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "cn";
-import { XIcon } from "lucide-react";
+import { EyeIcon, EyeOffIcon, XIcon } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import API from "@/lib/axios-wrapper";
 import { toast } from "@/components/ui/toast";
@@ -28,6 +28,26 @@ const registerFormSchema = registerSchema
 
 type FieldName = keyof z.infer<typeof registerFormSchema>;
 type FieldErrors = Partial<Record<FieldName, string>>;
+
+interface RegisterFormState {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  age: string;
+  showPassword: boolean;
+  showConfirmPassword: boolean;
+}
+
+const initialFormState: RegisterFormState = {
+  username: "yagiz",
+  email: "yagiz@gmail.com",
+  password: "12345aA!",
+  confirmPassword: "12345aA!",
+  age: "12",
+  showPassword: false,
+  showConfirmPassword: false,
+};
 
 interface RegisterPanelProps {
   onSubmit?: (data: RegisterInput) => void | Promise<void>;
@@ -44,6 +64,14 @@ export default function RegisterPanel({
   ref,
   className,
 }: RegisterPanelProps) {
+  const [form, setForm] = useState<RegisterFormState>(initialFormState);
+
+  function update<K extends keyof RegisterFormState>(
+    key: K,
+    value: RegisterFormState[K],
+  ) {
+    setForm((prev) => ({ ...prev, [key]: value }));
+  }
   const [errors, setErrors] = useState<FieldErrors>({});
 
   const mutation = useMutation({
@@ -54,15 +82,14 @@ export default function RegisterPanel({
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const form = new FormData(e.currentTarget);
-    const age = String(form.get("age") ?? "").trim();
 
+    const trimmedAge = form.age.trim();
     const result = registerFormSchema.safeParse({
-      username: form.get("username"),
-      email: form.get("email"),
-      password: form.get("password"),
-      confirmPassword: form.get("confirmPassword"),
-      age: age === "" ? undefined : Number(age),
+      username: form.username,
+      email: form.email,
+      password: form.password,
+      confirmPassword: form.confirmPassword,
+      age: trimmedAge === "" ? undefined : Number(trimmedAge),
     });
 
     if (!result.success) {
@@ -78,9 +105,9 @@ export default function RegisterPanel({
     setErrors({});
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { confirmPassword, ...payload } = result.data;
+    const { confirmPassword: _confirm, ...payload } = result.data;
 
-    await mutation.mutateAsync(payload);
+    mutation.mutate(payload);
   }
 
   useEffect(() => {
@@ -98,13 +125,13 @@ export default function RegisterPanel({
     }
   }, [mutation.isSuccess, mutation.isError]);
 
-  console.log(
-    "data " + mutation.data,
-    "error " + mutation.error,
-    "isSuccess " + mutation.isSuccess,
-    "isError " + mutation.isError,
-    "pending " + mutation.isPending,
-  );
+  // console.log(
+  //   "data " + mutation.data,
+  //   "error " + mutation.error,
+  //   "isSuccess " + mutation.isSuccess,
+  //   "isError " + mutation.isError,
+  //   "pending " + mutation.isPending,
+  // );
 
   return (
     <Card className={cn("w-full max-w-sm", className)} ref={ref}>
@@ -142,10 +169,11 @@ export default function RegisterPanel({
               <Label htmlFor="username">Username</Label>
               <Input
                 id="username"
-                name="username"
                 type="text"
                 autoComplete="username"
                 placeholder="johndoe"
+                value={form.username}
+                onChange={(e) => update("username", e.target.value)}
                 aria-invalid={!!errors.username}
               />
               <FieldError message={errors.username} />
@@ -154,44 +182,64 @@ export default function RegisterPanel({
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
-                name="email"
                 type="email"
                 autoComplete="email"
                 placeholder="m@example.com"
+                value={form.email}
+                onChange={(e) => update("email", e.target.value)}
                 aria-invalid={!!errors.email}
               />
               <FieldError message={errors.email} />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="password">Password</Label>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="new-password"
-                aria-invalid={!!errors.password}
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={form.showPassword ? "text" : "password"}
+                  autoComplete="new-password"
+                  className="pr-10"
+                  value={form.password}
+                  onChange={(e) => update("password", e.target.value)}
+                  aria-invalid={!!errors.password}
+                />
+                <PasswordToggle
+                  visible={form.showPassword}
+                  onToggle={() => update("showPassword", !form.showPassword)}
+                />
+              </div>
               <FieldError message={errors.password} />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="confirmPassword">Password again</Label>
-              <Input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                autoComplete="new-password"
-                aria-invalid={!!errors.confirmPassword}
-              />
+              <div className="relative">
+                <Input
+                  id="confirmPassword"
+                  type={form.showConfirmPassword ? "text" : "password"}
+                  autoComplete="new-password"
+                  className="pr-10"
+                  value={form.confirmPassword}
+                  onChange={(e) => update("confirmPassword", e.target.value)}
+                  aria-invalid={!!errors.confirmPassword}
+                />
+                <PasswordToggle
+                  visible={form.showConfirmPassword}
+                  onToggle={() =>
+                    update("showConfirmPassword", !form.showConfirmPassword)
+                  }
+                />
+              </div>
               <FieldError message={errors.confirmPassword} />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="age">Age (optional)</Label>
               <Input
                 id="age"
-                name="age"
                 type="number"
                 min={0}
                 step={1}
+                value={form.age}
+                onChange={(e) => update("age", e.target.value)}
                 aria-invalid={!!errors.age}
               />
               <FieldError message={errors.age} />
@@ -210,6 +258,30 @@ export default function RegisterPanel({
         </Button>
       </CardFooter>
     </Card>
+  );
+}
+
+function PasswordToggle({
+  visible,
+  onToggle,
+}: {
+  visible: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      tabIndex={-1}
+      aria-label={visible ? "Hide password" : "Show password"}
+      onClick={onToggle}
+      className="absolute inset-y-0 right-0 flex w-10 cursor-pointer items-center justify-center text-muted-foreground hover:text-foreground"
+    >
+      {visible ? (
+        <EyeOffIcon className="size-4" />
+      ) : (
+        <EyeIcon className="size-4" />
+      )}
+    </button>
   );
 }
 
