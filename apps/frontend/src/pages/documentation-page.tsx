@@ -151,7 +151,6 @@ export default function DocumentationPage() {
                 <>
                   <p>
                     A pen is three files: HTML, CSS and JavaScript. You write
-<<<<<<< HEAD
                     them in the editors at the bottom of the page and the result
                     shows up in the preview above them.
                   </p>
@@ -160,16 +159,6 @@ export default function DocumentationPage() {
                     in the three editors is put together into one page and shown
                     in the preview, so what you see is exactly what the browser
                     would run.
-=======
-                    them in the editors at the bottom of the page and the
-                    result shows up in the preview above them.
-                  </p>
-                  <p>
-                    There is nothing to install and no build step. Whatever is
-                    in the three editors is put together into one page and
-                    shown in the preview, so what you see is exactly what the
-                    browser would run.
->>>>>>> 73d56b53fbe3cf43585add807eb550b7f440f95b
                   </p>
                 </>,
                 <dl className="space-y-5 bg-muted p-8">
@@ -203,14 +192,10 @@ export default function DocumentationPage() {
                   <p>A button that rolls a die takes two panes.</p>
                   <ol className="list-decimal space-y-3 pl-5">
                     <li>
-<<<<<<< HEAD
                       Open{" "}
                       <a className="underline" href="/new-pen">
                         New pen
                       </a>{" "}
-=======
-                      Open <a className="underline" href="/new-pen">New pen</a>{" "}
->>>>>>> 73d56b53fbe3cf43585add807eb550b7f440f95b
                       and click into the HTML pane.
                     </li>
                     <li>Paste the markup from the first block.</li>
@@ -297,15 +282,9 @@ export default function DocumentationPage() {
                 <p className="text-base leading-relaxed">
                   Each pane has two small buttons in its title bar. The arrow
                   pointing in loads a file from your computer and replaces what
-<<<<<<< HEAD
                   is in that pane. The arrow pointing out saves the pane to your
                   downloads folder. There is no account and no cloud copy, so
                   export anything you want to keep.
-=======
-                  is in that pane. The arrow pointing out saves the pane to
-                  your downloads folder. There is no account and no cloud copy,
-                  so export anything you want to keep.
->>>>>>> 73d56b53fbe3cf43585add807eb550b7f440f95b
                 </p>
               </div>
               <Table>
@@ -332,13 +311,8 @@ export default function DocumentationPage() {
               {[
                 <>
                   <p>
-<<<<<<< HEAD
                     The editors are Monaco, so you get the same shortcuts as in
                     VS Code. These are the ones that save the most time.
-=======
-                    The editors are Monaco, so you get the same shortcuts as
-                    in VS Code. These are the ones that save the most time.
->>>>>>> 73d56b53fbe3cf43585add807eb550b7f440f95b
                   </p>
                   <p>On a Mac, read Ctrl as Cmd and Alt as Option.</p>
                 </>,
@@ -367,24 +341,14 @@ export default function DocumentationPage() {
                   <p>
                     Your code runs in an iframe with{" "}
                     <code>sandbox=&quot;allow-scripts&quot;</code> and nothing
-<<<<<<< HEAD
                     else. That means a pen can run JavaScript but is treated as
                     a stranger by the rest of the site.
-=======
-                    else. That means a pen can run JavaScript but is treated
-                    as a stranger by the rest of the site.
->>>>>>> 73d56b53fbe3cf43585add807eb550b7f440f95b
                   </p>
                   <p>
                     The CSS and JavaScript are written into the page itself
                     rather than linked, because a sandboxed frame can&apos;t
-<<<<<<< HEAD
                     load files from this site. If you link a script or font from
                     a CDN in the HTML pane, that still works.
-=======
-                    load files from this site. If you link a script or font
-                    from a CDN in the HTML pane, that still works.
->>>>>>> 73d56b53fbe3cf43585add807eb550b7f440f95b
                   </p>
                 </>,
                 <div className="grid gap-8 bg-muted p-8 sm:grid-cols-2">
