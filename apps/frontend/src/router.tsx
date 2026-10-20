@@ -5,6 +5,7 @@ import NewPenPage from "@pages/new-pen-page";
 import SupportPage from "@pages/support-page";
 import DocumentationPage from "@pages/documentation-page";
 import BlogPage from "@pages/blog-page";
+import MyPensPage from "@pages/my-pens-page";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: "/blog",
     element: <BlogPage />,
+  },
+  {
+    path: "/my-pens",
+    element: <MyPensPage />,
   },
 ]);
 
