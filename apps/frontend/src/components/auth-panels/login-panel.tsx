@@ -134,7 +134,7 @@ export default function LoginPanel({
               <Input
                 id="login-email"
                 type="email"
-                autoComplete="email"
+                autoComplete="off"
                 placeholder="m@example.com"
                 value={form.email}
                 onChange={(e) => update("email", e.target.value)}
@@ -148,7 +148,7 @@ export default function LoginPanel({
                 <Input
                   id="login-password"
                   type={form.showPassword ? "text" : "password"}
-                  autoComplete="current-password"
+                  autoComplete="new-password"
                   className="pr-10"
                   value={form.password}
                   onChange={(e) => update("password", e.target.value)}
