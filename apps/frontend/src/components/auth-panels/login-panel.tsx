@@ -18,6 +18,7 @@ import { EyeIcon, EyeOffIcon, XIcon } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import API from "@/lib/axios-wrapper";
 import { toast } from "sonner";
+import { useAuth } from "@/providers/auth-provider";
 
 type FieldName = keyof z.infer<typeof loginSchema>;
 type FieldErrors = Partial<Record<FieldName, string>>;
@@ -50,6 +51,7 @@ export default function LoginPanel({
 }: LoginPanelProps) {
   const [form, setForm] = useState<LoginFormState>(initialFormState);
   const [errors, setErrors] = useState<FieldErrors>({});
+  const { setIsLoggedIn } = useAuth();
 
   function update<K extends keyof LoginFormState>(
     key: K,
@@ -65,6 +67,7 @@ export default function LoginPanel({
     onSuccess: () => {
       onClose?.();
       toast("Logged in successfully", { position: "top-right" });
+      setIsLoggedIn(true);
     },
     onError: (error) => {
       toast(error?.message ?? "An error occurred", { position: "top-right" });
@@ -186,19 +189,20 @@ function PasswordToggle({
   onToggle: () => void;
 }) {
   return (
-    <button
+    <Button
       type="button"
+      variant="ghost"
       tabIndex={-1}
       aria-label={visible ? "Hide password" : "Show password"}
       onClick={onToggle}
-      className="absolute inset-y-0 right-0 flex w-10 cursor-pointer items-center justify-center text-muted-foreground hover:text-foreground"
+      className="absolute inset-y-0 right-0 h-auto w-10 cursor-pointer rounded-none p-0 text-muted-foreground hover:bg-transparent hover:text-foreground dark:hover:bg-transparent"
     >
       {visible ? (
         <EyeOffIcon className="size-4" />
       ) : (
         <EyeIcon className="size-4" />
       )}
-    </button>
+    </Button>
   );
 }
 

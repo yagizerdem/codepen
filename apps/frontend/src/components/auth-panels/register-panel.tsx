@@ -267,19 +267,20 @@ function PasswordToggle({
   onToggle: () => void;
 }) {
   return (
-    <button
+    <Button
       type="button"
+      variant="ghost"
       tabIndex={-1}
       aria-label={visible ? "Hide password" : "Show password"}
       onClick={onToggle}
-      className="absolute inset-y-0 right-0 flex w-10 cursor-pointer items-center justify-center text-muted-foreground hover:text-foreground"
+      className="absolute inset-y-0 right-0 h-auto w-10 cursor-pointer rounded-none p-0 text-muted-foreground hover:bg-transparent hover:text-foreground dark:hover:bg-transparent"
     >
       {visible ? (
         <EyeOffIcon className="size-4" />
       ) : (
         <EyeIcon className="size-4" />
       )}
-    </button>
+    </Button>
   );
 }
 
