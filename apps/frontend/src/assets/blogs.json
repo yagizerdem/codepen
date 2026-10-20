@@ -1,0 +1,120 @@
+[
+  {
+    "_id": "67a0b1c2d3e4f5a6b7c8d000",
+    "author": "66f1a0c2e4b0a1b2c3d4e001",
+    "title": "Build a dice roller in 10 lines of JavaScript",
+    "body": "A quick walkthrough of event listeners, Math.random and the DOM, using nothing but the three panes of a pen.\n\n## Why it matters\n\nThis post walks through the idea step by step, with small examples you can paste into a new pen and change as you read.\n\n## Try it\n\nOpen a new pen, paste the snippets and watch the preview update.",
+    "tags": [
+      "JavaScript",
+      "Tutorial"
+    ],
+    "createdAt": "2026-10-28T10:00:00.000Z",
+    "updatedAt": "2026-10-28T10:00:00.000Z"
+  },
+  {
+    "_id": "67a0b1c2d3e4f5a6b7c8d001",
+    "author": "66f1a0c2e4b0a1b2c3d4e002",
+    "title": "CSS grid layouts you can copy into a pen",
+    "body": "Five grid patterns that cover most page layouts, each small enough to read at a glance and tweak live.\n\n## Why it matters\n\nThis post walks through the idea step by step, with small examples you can paste into a new pen and change as you read.\n\n## Try it\n\nOpen a new pen, paste the snippets and watch the preview update.",
+    "tags": [
+      "CSS",
+      "Tips"
+    ],
+    "createdAt": "2026-10-26T10:00:00.000Z",
+    "updatedAt": "2026-10-26T10:00:00.000Z"
+  },
+  {
+    "_id": "67a0b1c2d3e4f5a6b7c8d002",
+    "author": "66f1a0c2e4b0a1b2c3d4e001",
+    "title": "Release notes: resizable panes and faster previews",
+    "body": "The workspace now remembers your divider positions and the preview reloads half a second after you stop typing.\n\n## Why it matters\n\nThis post walks through the idea step by step, with small examples you can paste into a new pen and change as you read.\n\n## Try it\n\nOpen a new pen, paste the snippets and watch the preview update.",
+    "tags": [
+      "Release notes"
+    ],
+    "createdAt": "2026-10-24T10:00:00.000Z",
+    "updatedAt": "2026-10-24T10:00:00.000Z"
+  },
+  {
+    "_id": "67a0b1c2d3e4f5a6b7c8d003",
+    "author": "66f1a0c2e4b0a1b2c3d4e003",
+    "title": "Semantic HTML is not optional",
+    "body": "Why headings, landmarks and buttons matter, and how to check your markup without leaving the editor.\n\n## Why it matters\n\nThis post walks through the idea step by step, with small examples you can paste into a new pen and change as you read.\n\n## Try it\n\nOpen a new pen, paste the snippets and watch the preview update.",
+    "tags": [
+      "HTML",
+      "Tips"
+    ],
+    "createdAt": "2026-10-22T10:00:00.000Z",
+    "updatedAt": "2026-10-22T10:00:00.000Z"
+  },
+  {
+    "_id": "67a0b1c2d3e4f5a6b7c8d004",
+    "author": "66f1a0c2e4b0a1b2c3d4e002",
+    "title": "Animating with CSS custom properties",
+    "body": "Drive transitions from a single variable and let the browser do the interpolation for you.\n\n## Why it matters\n\nThis post walks through the idea step by step, with small examples you can paste into a new pen and change as you read.\n\n## Try it\n\nOpen a new pen, paste the snippets and watch the preview update.",
+    "tags": [
+      "CSS",
+      "Tutorial"
+    ],
+    "createdAt": "2026-09-20T10:00:00.000Z",
+    "updatedAt": "2026-09-20T10:00:00.000Z"
+  },
+  {
+    "_id": "67a0b1c2d3e4f5a6b7c8d005",
+    "author": "66f1a0c2e4b0a1b2c3d4e003",
+    "title": "Debouncing input without a library",
+    "body": "A tiny debounce you can paste into any pen, and when you should reach for something bigger.\n\n## Why it matters\n\nThis post walks through the idea step by step, with small examples you can paste into a new pen and change as you read.\n\n## Try it\n\nOpen a new pen, paste the snippets and watch the preview update.",
+    "tags": [
+      "JavaScript",
+      "Tips"
+    ],
+    "createdAt": "2026-09-18T10:00:00.000Z",
+    "updatedAt": "2026-09-18T10:00:00.000Z"
+  },
+  {
+    "_id": "67a0b1c2d3e4f5a6b7c8d006",
+    "author": "66f1a0c2e4b0a1b2c3d4e001",
+    "title": "Dark mode with prefers-color-scheme",
+    "body": "Respect the system theme, add a manual toggle, and avoid the flash of the wrong colors on load.\n\n## Why it matters\n\nThis post walks through the idea step by step, with small examples you can paste into a new pen and change as you read.\n\n## Try it\n\nOpen a new pen, paste the snippets and watch the preview update.",
+    "tags": [
+      "CSS",
+      "HTML"
+    ],
+    "createdAt": "2026-09-16T10:00:00.000Z",
+    "updatedAt": "2026-09-16T10:00:00.000Z"
+  },
+  {
+    "_id": "67a0b1c2d3e4f5a6b7c8d007",
+    "author": "66f1a0c2e4b0a1b2c3d4e002",
+    "title": "Understanding the pen sandbox",
+    "body": "What a sandboxed iframe can and cannot do, and how to load resources from a CDN safely.\n\n## Why it matters\n\nThis post walks through the idea step by step, with small examples you can paste into a new pen and change as you read.\n\n## Try it\n\nOpen a new pen, paste the snippets and watch the preview update.",
+    "tags": [
+      "HTML",
+      "JavaScript"
+    ],
+    "createdAt": "2026-09-14T10:00:00.000Z",
+    "updatedAt": "2026-09-14T10:00:00.000Z"
+  },
+  {
+    "_id": "67a0b1c2d3e4f5a6b7c8d008",
+    "author": "66f1a0c2e4b0a1b2c3d4e003",
+    "title": "Fetching data in a pen",
+    "body": "Use fetch with async/await, handle errors properly and render a list from a public JSON API.\n\n## Why it matters\n\nThis post walks through the idea step by step, with small examples you can paste into a new pen and change as you read.\n\n## Try it\n\nOpen a new pen, paste the snippets and watch the preview update.",
+    "tags": [
+      "JavaScript",
+      "Tutorial"
+    ],
+    "createdAt": "2026-08-12T10:00:00.000Z",
+    "updatedAt": "2026-08-12T10:00:00.000Z"
+  },
+  {
+    "_id": "67a0b1c2d3e4f5a6b7c8d009",
+    "author": "66f1a0c2e4b0a1b2c3d4e001",
+    "title": "Ten editor shortcuts worth learning",
+    "body": "Move lines, select the next match and format a pane without touching the mouse.\n\n## Why it matters\n\nThis post walks through the idea step by step, with small examples you can paste into a new pen and change as you read.\n\n## Try it\n\nOpen a new pen, paste the snippets and watch the preview update.",
+    "tags": [
+      "Tips"
+    ],
+    "createdAt": "2026-08-10T10:00:00.000Z",
+    "updatedAt": "2026-08-10T10:00:00.000Z"
+  }
+]

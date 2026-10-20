@@ -4,6 +4,7 @@ import PrivacyTermsPage from "@pages/privacy-terms-page";
 import NewPenPage from "@pages/new-pen-page";
 import SupportPage from "@pages/support-page";
 import DocumentationPage from "@pages/documentation-page";
+import BlogPage from "@pages/blog-page";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "/documentation",
     element: <DocumentationPage />,
+  },
+  {
+    path: "/blog",
+    element: <BlogPage />,
   },
 ]);
 

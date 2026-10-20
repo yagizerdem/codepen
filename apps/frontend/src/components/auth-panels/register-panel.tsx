@@ -80,6 +80,17 @@ export default function RegisterPanel({
       const res = await API.post<ApiResponse>("/api/auth/register", dto);
       return res.data;
     },
+
+    onSuccess: (response) => {
+      onClose?.();
+      toast(response.message ?? "Account created successfully", {
+        position: "top-right",
+      });
+    },
+
+    onError: (error) => {
+      toast(error?.message ?? "An error occurred", { position: "top-right" });
+    },
   });
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -111,21 +122,6 @@ export default function RegisterPanel({
 
     await mutation.mutateAsync(payload);
   }
-
-  useEffect(() => {
-    if (mutation.isError) {
-      toast(mutation.error.message ?? "An error occurred", {
-        position: "top-right",
-      });
-    }
-    if (mutation.isSuccess) {
-      onClose?.();
-      const response: ApiResponse<unknown> = mutation.data;
-      toast(response.message ?? "Account created successfully", {
-        position: "top-right",
-      });
-    }
-  }, [mutation.isSuccess, mutation.isError]);
 
   // console.log(
   //   "data " + mutation.data,
@@ -271,19 +267,20 @@ function PasswordToggle({
   onToggle: () => void;
 }) {
   return (
-    <button
+    <Button
       type="button"
+      variant="ghost"
       tabIndex={-1}
       aria-label={visible ? "Hide password" : "Show password"}
       onClick={onToggle}
-      className="absolute inset-y-0 right-0 flex w-10 cursor-pointer items-center justify-center text-muted-foreground hover:text-foreground"
+      className="absolute inset-y-0 right-0 h-auto w-10 cursor-pointer rounded-none p-0 text-muted-foreground hover:bg-transparent hover:text-foreground dark:hover:bg-transparent"
     >
       {visible ? (
         <EyeOffIcon className="size-4" />
       ) : (
         <EyeIcon className="size-4" />
       )}
-    </button>
+    </Button>
   );
 }
 

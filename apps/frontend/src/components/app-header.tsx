@@ -19,6 +19,10 @@ import { Fragment, useRef, useState } from "react";
 import RegisterPanel from "./auth-panels/register-panel";
 import LoginPanel from "./auth-panels/login-panel";
 import gsap from "gsap";
+import { useMutation } from "@tanstack/react-query";
+import API from "@/lib/axios-wrapper";
+import { toast } from "sonner";
+import type { ApiResponse } from "@codepen/shared";
 
 const navItems = [
   { label: "Explore", href: "/explore" },
@@ -38,17 +42,15 @@ type AppHeaderProps = {
   username: string;
   activePath?: string;
   hasNotifications?: boolean;
-  onLogout?: () => void;
 };
 
 export function AppHeader({
   username,
   activePath,
   hasNotifications = false,
-  onLogout,
 }: AppHeaderProps) {
   const navigation = useNavigate();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
   const [showRegisterPanel, setShowRegisterPanel] = useState<boolean>(false);
   const [showLoginPanel, setShowLoginPanel] = useState<boolean>(false);
   const registerPanelRef = useRef<HTMLDivElement>(null);
@@ -76,6 +78,26 @@ export function AppHeader({
         onDone?.();
       },
     });
+  }
+
+  const logoutMutation = useMutation({
+    mutationFn: async () =>
+      (await API.post("/api/auth/logout")).data as ApiResponse<unknown>,
+    onSuccess: (data) => {
+      toast(data.message, {
+        position: "top-right",
+      });
+      setIsLoggedIn(false);
+    },
+    onError: (error: any) => {
+      toast(error.message || "Logout failed", {
+        position: "top-right",
+      });
+    },
+  });
+
+  async function logout() {
+    await logoutMutation.mutateAsync();
   }
 
   return (
@@ -165,31 +187,34 @@ export function AppHeader({
               New Pen
             </Button>
 
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="icon"
               aria-label="Notifications"
-              className="relative rounded-lg p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              className="relative size-9 rounded-lg p-2 text-muted-foreground hover:bg-accent hover:text-foreground dark:hover:bg-accent"
             >
               <Bell className="size-5" />
               {hasNotifications && (
                 <span className="absolute right-1.5 top-1.5 size-2 rounded-full bg-primary ring-2 ring-background" />
               )}
-            </button>
+            </Button>
 
             <ThemeToggle />
 
             {isLoggedIn && (
               <div className="group relative">
-                <button
+                <Button
                   type="button"
+                  variant="ghost"
                   aria-haspopup="menu"
-                  className="flex items-center gap-1 rounded-full p-1 transition-colors hover:bg-accent focus:outline-none"
+                  className="h-auto gap-1 rounded-full p-1 hover:bg-accent focus:outline-none dark:hover:bg-accent"
                 >
                   <span className="flex size-8 items-center justify-center rounded-full bg-muted text-sm font-medium uppercase">
                     {username.charAt(0)}
                   </span>
                   <ChevronDown className="hidden size-3.5 text-muted-foreground transition-colors group-hover:text-foreground sm:inline-block" />
-                </button>
+                </Button>
 
                 <div
                   role="menu"
@@ -214,18 +239,19 @@ export function AppHeader({
                     </a>
                   ))}
                   <div className="my-1 h-px bg-border" />
-                  <button
+                  <Button
                     type="button"
                     role="menuitem"
-                    onClick={onLogout}
-                    className="flex w-full items-center gap-2 px-3 py-2 text-sm text-destructive transition-colors hover:bg-accent"
+                    onClick={logout}
+                    className="bg-accent cursor-pointer text-left w-fit flex items-center gap-2 px-3 py-2 text-sm text-destructive transition-colors hover:bg-accent"
                   >
                     <LogOut className="size-4" />
                     Log Out
-                  </button>
+                  </Button>
                 </div>
               </div>
             )}
+
             {!isLoggedIn && (
               <div className="flex flex-row gap-3">
                 <Button

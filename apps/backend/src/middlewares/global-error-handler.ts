@@ -8,6 +8,8 @@ export default function globalErrorHandler(
   res: Response,
   _next: NextFunction,
 ) {
+  console.error(error);
+
   if (error instanceof AppError && error.isOperational) {
     res.status(error.statusCode).json(
       new ApiResponse({

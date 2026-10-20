@@ -145,14 +145,15 @@ export default function SupportPage() {
             <div className="flex flex-wrap items-center gap-2 text-sm">
               <span className="text-muted-foreground">Try:</span>
               {tags.map((tag) => (
-                <button
+                <Button
                   key={tag}
                   type="button"
+                  variant="ghost"
                   onClick={() => setQuery(tag)}
-                  className="rounded border px-2.5 py-1 text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+                  className="h-auto rounded border border-border px-2.5 py-1 font-normal text-muted-foreground hover:border-primary hover:bg-transparent hover:text-primary dark:hover:bg-transparent"
                 >
                   #{tag}
-                </button>
+                </Button>
               ))}
             </div>
           </section>
