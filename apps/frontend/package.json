@@ -17,10 +17,7 @@
     "@monaco-editor/react": "^4.7.0",
     "@shadcn/react": "^0.3.1",
     "@tailwindcss/vite": "^4.3.3",
-<<<<<<< HEAD
     "@tanstack/react-query": "^5.104.5",
-=======
->>>>>>> 0a0c3f4 (feat(frontend): build documentation page with shadcn components and auth-aware header)
     "axios": "^1.20.0",
     "class-variance-authority": "^0.7.1",
     "cmdk": "^1.1.1",
