@@ -12,7 +12,11 @@ import {
 } from "@/components/ui/tooltip";
 import { useEventEmitter } from "@/hooks/useEventEmitter";
 import { Fragment, useState } from "react";
-import { createPenSchema } from "@codepen/validator";
+import { createPenSchema, type CreatePenInput } from "@codepen/validator";
+import { useMutation } from "@tanstack/react-query";
+import API from "@/lib/axios-wrapper";
+import type { ApiResponse } from "@codepen/shared";
+import { toast } from "sonner";
 
 export default function NewPenPage() {
   const { publishEvent } = useEventEmitter<{ data: string }>(
@@ -27,14 +31,40 @@ export default function NewPenPage() {
   });
 
   async function handleSave() {
-    const result = await createPenSchema.safeParseAsync(code);
-    if (!result.success) {
-      const errors: string[] = result.error.issues.map(
-        (issue) => issue.message,
-      );
-      setErrors(errors);
-      console.error(errors);
+    try {
+      setErrors([]);
+      const result = await createPenSchema.safeParseAsync(code);
+      if (!result.success) {
+        const errors: string[] = result.error.issues.map(
+          (issue) => issue.message,
+        );
+        setErrors(errors);
+        return;
+      }
+      await mutation.mutateAsync(code as CreatePenInput);
+    } finally {
     }
+  }
+
+  const mutation = useMutation({
+    mutationFn: createPen,
+
+    onSuccess: (data) => {
+      toast(data.message, {
+        position: "top-right",
+      });
+      console.log(data);
+    },
+    onError: (error) => {
+      toast(error.message, {
+        position: "top-right",
+      });
+      console.error("Error creating pen:", error);
+    },
+  });
+
+  async function createPen(dto: CreatePenInput): Promise<ApiResponse<unknown>> {
+    return (await API.post("/api/pens", dto)).data;
   }
 
   return (

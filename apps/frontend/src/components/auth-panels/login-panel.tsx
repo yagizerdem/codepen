@@ -29,8 +29,8 @@ interface LoginFormState {
 }
 
 const initialFormState: LoginFormState = {
-  email: "",
-  password: "",
+  email: "yagiz@gmail.com",
+  password: "12345aA!",
   showPassword: false,
 };
 
