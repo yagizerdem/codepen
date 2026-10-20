@@ -5,7 +5,6 @@ import {
   Heart,
   KeyRoundIcon,
   LogOut,
-  LogOutIcon,
   Plus,
   Search,
   Settings,
@@ -20,6 +19,10 @@ import { Fragment, useRef, useState } from "react";
 import RegisterPanel from "./auth-panels/register-panel";
 import LoginPanel from "./auth-panels/login-panel";
 import gsap from "gsap";
+import { useMutation } from "@tanstack/react-query";
+import API from "@/lib/axios-wrapper";
+import { toast } from "sonner";
+import type { ApiResponse } from "@codepen/shared";
 
 const navItems = [
   { label: "Explore", href: "/explore" },
@@ -39,17 +42,15 @@ type AppHeaderProps = {
   username: string;
   activePath?: string;
   hasNotifications?: boolean;
-  onLogout?: () => void;
 };
 
 export function AppHeader({
   username,
   activePath,
   hasNotifications = false,
-  onLogout,
 }: AppHeaderProps) {
   const navigation = useNavigate();
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
   const [showRegisterPanel, setShowRegisterPanel] = useState<boolean>(false);
   const [showLoginPanel, setShowLoginPanel] = useState<boolean>(false);
   const registerPanelRef = useRef<HTMLDivElement>(null);
@@ -77,6 +78,26 @@ export function AppHeader({
         onDone?.();
       },
     });
+  }
+
+  const logoutMutation = useMutation({
+    mutationFn: async () =>
+      (await API.post("/api/auth/logout")).data as ApiResponse<unknown>,
+    onSuccess: (data) => {
+      toast(data.message, {
+        position: "top-right",
+      });
+      setIsLoggedIn(false);
+    },
+    onError: (error: any) => {
+      toast(error.message || "Logout failed", {
+        position: "top-right",
+      });
+    },
+  });
+
+  async function logout() {
+    await logoutMutation.mutateAsync();
   }
 
   return (
@@ -221,7 +242,7 @@ export function AppHeader({
                   <Button
                     type="button"
                     role="menuitem"
-                    onClick={onLogout}
+                    onClick={logout}
                     className="bg-accent cursor-pointer text-left w-fit flex items-center gap-2 px-3 py-2 text-sm text-destructive transition-colors hover:bg-accent"
                   >
                     <LogOut className="size-4" />
