@@ -1,4 +1,4 @@
-import HttpStatusCode from "@/utils/http-status-code.js";
+import { ApiResponse, HttpStatusCode } from "@codepen/shared";
 import type { Request, Response } from "express";
 import {
   loginSchema,
@@ -8,7 +8,6 @@ import {
 import { AppError } from "@/utils/error.js";
 import User from "@/models/user.entity.js";
 import bcrypt from "bcrypt";
-import { ApiResponse } from "@/utils/api-resonse.js";
 import { parseBody } from "@/utils/validate.js";
 import {
   clearAuthCookies,

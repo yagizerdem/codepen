@@ -1,7 +1,6 @@
 import type { Request, Response } from "express";
 import * as likeService from "@/services/like-service.js";
-import { ApiResponse } from "@/utils/api-resonse.js";
-import HttpStatusCode from "@/utils/http-status-code.js";
+import { ApiResponse, HttpStatusCode } from "@codepen/shared";
 import { ApiFeatures } from "@/utils/api-features.js";
 import Like from "@/models/like.entity.js";
 

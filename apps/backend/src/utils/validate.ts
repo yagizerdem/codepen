@@ -1,6 +1,6 @@
 import { z } from "zod";
-import HttpStatusCode from "@/utils/http-status-code.js";
-import { AppError, type FieldErrors } from "@/utils/error.js";
+import { HttpStatusCode, type FieldErrors } from "@codepen/shared";
+import { AppError } from "@/utils/error.js";
 
 /** Parses `body` with `schema`, throwing a 400 AppError with field errors on failure. */
 export function parseBody<T extends z.ZodType>(

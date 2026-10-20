@@ -2,8 +2,7 @@ import type { Request, Response } from "express";
 import { parseBody } from "@/utils/validate.js";
 import { createPenSchema, updatePenSchema } from "@codepen/validator";
 import * as penService from "@/services/pen-service.js";
-import { ApiResponse } from "@/utils/api-resonse.js";
-import HttpStatusCode from "@/utils/http-status-code.js";
+import { ApiResponse, HttpStatusCode } from "@codepen/shared";
 
 export async function createPen(req: Request, res: Response) {
   const user = req.user!;

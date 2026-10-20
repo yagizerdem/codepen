@@ -2,8 +2,7 @@ import type { Request, Response } from "express";
 import { parseBody } from "@/utils/validate.js";
 import { createBlogSchema, updateBlogSchema } from "@codepen/validator";
 import * as blogService from "@/services/blog-service.js";
-import { ApiResponse } from "@/utils/api-resonse.js";
-import HttpStatusCode from "@/utils/http-status-code.js";
+import { ApiResponse, HttpStatusCode } from "@codepen/shared";
 import { ApiFeatures } from "@/utils/api-features.js";
 import Blog from "@/models/blog.entity.js";
 

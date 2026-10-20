@@ -2,7 +2,7 @@ import mongoose, { isValidObjectId } from "mongoose";
 import type { CreatePenInput, UpdatePenInput } from "@codepen/validator";
 import Pen from "@/models/pen.entity.js";
 import { AppError } from "@/utils/error.js";
-import HttpStatusCode from "@/utils/http-status-code.js";
+import { HttpStatusCode } from "@codepen/shared";
 
 export const PEN_CREATION_COOLDOWN = 1000 * 60 * 5; // 5 minutes
 
