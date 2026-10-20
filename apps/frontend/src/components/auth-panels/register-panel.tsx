@@ -80,6 +80,17 @@ export default function RegisterPanel({
       const res = await API.post<ApiResponse>("/api/auth/register", dto);
       return res.data;
     },
+
+    onSuccess: (response) => {
+      onClose?.();
+      toast(response.message ?? "Account created successfully", {
+        position: "top-right",
+      });
+    },
+
+    onError: (error) => {
+      toast(error?.message ?? "An error occurred", { position: "top-right" });
+    },
   });
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -111,21 +122,6 @@ export default function RegisterPanel({
 
     await mutation.mutateAsync(payload);
   }
-
-  useEffect(() => {
-    if (mutation.isError) {
-      toast(mutation.error.message ?? "An error occurred", {
-        position: "top-right",
-      });
-    }
-    if (mutation.isSuccess) {
-      onClose?.();
-      const response: ApiResponse<unknown> = mutation.data;
-      toast(response.message ?? "Account created successfully", {
-        position: "top-right",
-      });
-    }
-  }, [mutation.isSuccess, mutation.isError]);
 
   // console.log(
   //   "data " + mutation.data,
