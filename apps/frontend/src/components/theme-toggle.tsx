@@ -18,12 +18,16 @@ export function ThemeToggle() {
     >
       <Sun
         className={`absolute inset-0 m-auto size-5 transition-all duration-500 ${
-          isDark ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-0 opacity-0"
+          isDark
+            ? "rotate-0 scale-100 opacity-100"
+            : "-rotate-90 scale-0 opacity-0"
         }`}
       />
       <Moon
         className={`absolute inset-0 m-auto size-5 transition-all duration-500 ${
-          isDark ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100"
+          isDark
+            ? "rotate-90 scale-0 opacity-0"
+            : "rotate-0 scale-100 opacity-100"
         }`}
       />
     </button>

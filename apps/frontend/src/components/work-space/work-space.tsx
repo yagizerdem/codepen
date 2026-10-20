@@ -11,6 +11,7 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { useEventEmitter } from "@/hooks/useEventEmitter";
+import { Button } from "@base-ui/react";
 
 const editors: { language: EditorLanguage; label: string }[] = [
   { language: "html", label: "HTML" },
@@ -32,20 +33,22 @@ const fileConfig: Record<
 };
 
 interface WorkSpaceProps {
-  html?: string;
-  css?: string;
-  javascript?: string;
   refreshIframe?: () => void;
+  code?: WorkspaceCode;
+  setCode: React.Dispatch<React.SetStateAction<WorkspaceCode>>;
 }
+
+export type WorkspaceCode = {
+  html: string;
+  css: string;
+  javascript: string;
+};
 
 export function WorkSpace(props: WorkSpaceProps) {
   const { eventData } = useEventEmitter<{ data: string }>("refresh-workspace");
 
-  const [code, setCode] = useState<Record<EditorLanguage, string>>({
-    html: props.html ?? "",
-    css: props.css ?? "",
-    javascript: props.javascript ?? "",
-  });
+  const code = props.code ?? { html: "", css: "", javascript: "" };
+
   const debouncedCode = useDebounce(code, 500);
 
   // Changing the key remounts the iframe. Setting srcdoc on an iframe whose
@@ -67,7 +70,7 @@ export function WorkSpace(props: WorkSpaceProps) {
   const importCode = async (language: EditorLanguage, file?: File) => {
     if (!file) return;
     const text = await file.text();
-    setCode((prev) => ({ ...prev, [language]: text }));
+    props.setCode({ ...code, [language]: text });
   };
 
   // The sandboxed iframe has an opaque origin, so it can't load blob: URLs
@@ -145,14 +148,14 @@ export function WorkSpace(props: WorkSpaceProps) {
                             }}
                           />
                         </label>
-                        <button
+                        <Button
                           type="button"
                           title={`Export ${label} file`}
                           onClick={() => exportCode(language)}
                           className="cursor-pointer rounded p-1 hover:bg-accent hover:text-foreground"
                         >
                           <UploadIcon className="size-3.5" />
-                        </button>
+                        </Button>
                       </div>
                     </div>
                     <div className="min-h-0 flex-1 overflow-hidden">
@@ -160,7 +163,10 @@ export function WorkSpace(props: WorkSpaceProps) {
                         language={language}
                         value={code[language]}
                         onChange={(value) =>
-                          setCode((prev) => ({ ...prev, [language]: value }))
+                          props.setCode((prev) => ({
+                            ...prev,
+                            [language]: value,
+                          }))
                         }
                       />
                     </div>
