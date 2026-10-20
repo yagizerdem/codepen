@@ -1,7 +1,7 @@
 import { RouterProvider } from "react-router";
 import router from "@/router";
 import { Fragment } from "react/jsx-runtime";
-import { Toaster } from "@/components/ui/toast";
+import { Toaster } from "@/components/ui/sonner";
 
 function App() {
   return (

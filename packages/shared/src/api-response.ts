@@ -1,5 +1,6 @@
-import HttpStatusCode from "@utils/http-status-code.js";
-import type { FieldErrors } from "@utils/error.js";
+import { HttpStatusCode } from "./http-status-code.js";
+/** Form validation errors keyed by field name, e.g. { email: ["Invalid email"] } */
+export type FieldErrors = Record<string, string[]>;
 
 interface ApiResponseOptions<T> {
   statusCode: HttpStatusCode;
@@ -8,7 +9,9 @@ interface ApiResponseOptions<T> {
   fieldErrors?: FieldErrors | undefined;
 }
 
-type SuccessOptions<T> = Partial<Pick<ApiResponseOptions<T>, "message" | "data">>;
+type SuccessOptions<T> = Partial<
+  Pick<ApiResponseOptions<T>, "message" | "data">
+>;
 type ErrorOptions = Partial<Pick<ApiResponseOptions<never>, "message">>;
 
 export class ApiResponse<T = unknown> {
@@ -141,3 +144,5 @@ export class ApiResponse<T = unknown> {
     });
   }
 }
+
+type ApiResponseType<T> = typeof ApiResponse<T>;

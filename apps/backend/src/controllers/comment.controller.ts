@@ -2,8 +2,7 @@ import type { Request, Response } from "express";
 import { parseBody } from "@/utils/validate.js";
 import { createCommentSchema, updateCommentSchema } from "@codepen/validator";
 import * as commentService from "@/services/comment-service.js";
-import { ApiResponse } from "@/utils/api-resonse.js";
-import HttpStatusCode from "@/utils/http-status-code.js";
+import { ApiResponse, HttpStatusCode } from "@codepen/shared";
 import { ApiFeatures } from "@/utils/api-features.js";
 import Comment from "@/models/comment.entity.js";
 

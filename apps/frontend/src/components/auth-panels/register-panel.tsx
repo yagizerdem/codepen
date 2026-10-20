@@ -17,7 +17,8 @@ import { cn } from "cn";
 import { EyeIcon, EyeOffIcon, XIcon } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import API from "@/lib/axios-wrapper";
-import { toast } from "@/components/ui/toast";
+import type { ApiResponse } from "@codepen/shared";
+import { toast } from "sonner";
 
 const registerFormSchema = registerSchema
   .extend({ confirmPassword: z.string().min(1, "Please repeat your password") })
@@ -75,8 +76,9 @@ export default function RegisterPanel({
   const [errors, setErrors] = useState<FieldErrors>({});
 
   const mutation = useMutation({
-    mutationFn: (dto: RegisterInput) => {
-      return API.post("/api/auth/register", dto);
+    mutationFn: async (dto: RegisterInput) => {
+      const res = await API.post<ApiResponse>("/api/auth/register", dto);
+      return res.data;
     },
   });
 
@@ -107,20 +109,22 @@ export default function RegisterPanel({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { confirmPassword: _confirm, ...payload } = result.data;
 
-    mutation.mutate(payload);
+    await mutation.mutateAsync(payload);
   }
 
   useEffect(() => {
     if (mutation.isError) {
-      toast.add({
-        title: "Error",
-        description: mutation.error.message,
+      console.error(mutation.error);
+
+      toast(mutation.error?.message ?? "An error occurred", {
+        position: "top-right",
       });
     }
     if (mutation.isSuccess) {
-      toast.add({
-        title: "Success",
-        description: "Account created successfully",
+      onClose?.();
+      const response: ApiResponse<unknown> = mutation.data;
+      toast(response.message ?? "Account created successfully", {
+        position: "top-right",
       });
     }
   }, [mutation.isSuccess, mutation.isError]);

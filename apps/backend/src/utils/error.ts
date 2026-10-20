@@ -1,7 +1,4 @@
-import HttpStatusCode from "@utils/http-status-code.js";
-
-/** Form validation errors keyed by field name, e.g. { email: ["Invalid email"] } */
-export type FieldErrors = Record<string, string[]>;
+import { HttpStatusCode, type FieldErrors } from "@codepen/shared";
 
 interface AppErrorOptions {
   statusCode: HttpStatusCode;
