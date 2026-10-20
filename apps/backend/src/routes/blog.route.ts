@@ -7,49 +7,6 @@ const router = Router();
 
 /**
  * @openapi
- * components:
- *   schemas:
- *     Blog:
- *       type: object
- *       properties:
- *         _id:
- *           type: string
- *           example: 665f1c2e8a1b2c3d4e5f6a7e
- *         author:
- *           type: string
- *           example: 665f1c2e8a1b2c3d4e5f6a7a
- *         title:
- *           type: string
- *           example: Getting started with CSS grid
- *         body:
- *           type: string
- *         tags:
- *           type: array
- *           items:
- *             type: string
- *           example: [css, grid]
- *         createdAt:
- *           type: string
- *           format: date-time
- *         updatedAt:
- *           type: string
- *           format: date-time
- *     BlogInput:
- *       type: object
- *       required: [title, body]
- *       properties:
- *         title:
- *           type: string
- *         body:
- *           type: string
- *         tags:
- *           type: array
- *           items:
- *             type: string
- */
-
-/**
- * @openapi
  * /api/blogs:
  *   get:
  *     tags: [Blogs]
