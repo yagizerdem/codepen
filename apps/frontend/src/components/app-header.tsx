@@ -15,14 +15,10 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { useNavigate } from "react-router";
 import { Button } from "@components/ui/button";
 import { useAuth } from "@/providers/auth-provider";
-<<<<<<< HEAD
 import { Fragment, useRef, useState } from "react";
 import RegisterPanel from "./auth-panels/register-panel";
 import LoginPanel from "./auth-panels/login-panel";
 import gsap from "gsap";
-=======
-import { useState } from "react";
->>>>>>> 73d56b53fbe3cf43585add807eb550b7f440f95b
 
 const navItems = [
   { label: "Explore", href: "/explore" },
@@ -55,7 +51,6 @@ export function AppHeader({
   const { isLoggedIn } = useAuth();
   const [showRegisterPanel, setShowRegisterPanel] = useState<boolean>(false);
   const [showLoginPanel, setShowLoginPanel] = useState<boolean>(false);
-<<<<<<< HEAD
   const registerPanelRef = useRef<HTMLDivElement>(null);
   const loginPanelRef = useRef<HTMLDivElement>(null);
 
@@ -82,8 +77,6 @@ export function AppHeader({
       },
     });
   }
-=======
->>>>>>> 73d56b53fbe3cf43585add807eb550b7f440f95b
 
   return (
     <Fragment>
@@ -119,7 +112,6 @@ export function AppHeader({
         </div>
       )}
 
-<<<<<<< HEAD
       <header className="fixed inset-x-0 top-0 z-50 bg-background/95 shadow-[0_1px_8px_rgba(0,0,0,0.4)] backdrop-blur-md ">
         <div className="flex h-16 w-full items-center justify-between gap-3 px-3">
           <div className="flex items-center gap-5">
@@ -253,96 +245,6 @@ export function AppHeader({
               </div>
             )}
           </div>
-=======
-        <div className="flex items-center gap-2">
-          <Button
-            onMouseUp={() => navigation("/new-pen")}
-            className="cursor-pointer flex h-9 items-center gap-1.5 rounded-lg bg-primary px-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
-          >
-            <Plus className="size-4" />
-            New Pen
-          </Button>
-
-          <button
-            type="button"
-            aria-label="Notifications"
-            className="relative rounded-lg p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-          >
-            <Bell className="size-5" />
-            {hasNotifications && (
-              <span className="absolute right-1.5 top-1.5 size-2 rounded-full bg-primary ring-2 ring-background" />
-            )}
-          </button>
-
-          <ThemeToggle />
-
-          {isLoggedIn && (
-            <div className="group relative">
-              <button
-                type="button"
-                aria-haspopup="menu"
-                className="flex items-center gap-1 rounded-full p-1 transition-colors hover:bg-accent focus:outline-none"
-              >
-                <span className="flex size-8 items-center justify-center rounded-full bg-muted text-sm font-medium uppercase">
-                  {username.charAt(0)}
-                </span>
-                <ChevronDown className="hidden size-3.5 text-muted-foreground transition-colors group-hover:text-foreground sm:inline-block" />
-              </button>
-
-              <div
-                role="menu"
-                className="pointer-events-none absolute right-0 top-full z-50 mt-2 w-56 rounded-xl bg-popover py-1 text-popover-foreground opacity-0 shadow-[0_12px_32px_rgba(0,0,0,0.65)] transition-all duration-150 group-focus-within:pointer-events-auto group-focus-within:opacity-100 group-hover:pointer-events-auto group-hover:opacity-100"
-              >
-                <div className="px-3 py-2">
-                  <p className="text-xs uppercase tracking-wider text-muted-foreground">
-                    Signed in as
-                  </p>
-                  <p className="truncate text-sm font-medium">@{username}</p>
-                </div>
-                <div className="my-1 h-px bg-border" />
-                {menuItems.map(({ label, href, icon: Icon }) => (
-                  <a
-                    key={href}
-                    href={href}
-                    role="menuitem"
-                    className="flex items-center gap-2 px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
-                  >
-                    <Icon className="size-4" />
-                    {label}
-                  </a>
-                ))}
-                <div className="my-1 h-px bg-border" />
-                <button
-                  type="button"
-                  role="menuitem"
-                  onClick={onLogout}
-                  className="flex w-full items-center gap-2 px-3 py-2 text-sm text-destructive transition-colors hover:bg-accent"
-                >
-                  <LogOut className="size-4" />
-                  Log Out
-                </button>
-              </div>
-            </div>
-          )}
-          {!isLoggedIn && (
-            <div className="flex flex-row gap-3">
-              <Button
-                onMouseUp={() => setShowRegisterPanel(true)}
-                className="cursor-pointer flex h-9 items-center gap-1.5 rounded-lg bg-primary px-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
-              >
-                <KeyRoundIcon className="size-4" />
-                Register
-              </Button>
-              <Button
-                onMouseUp={() => setShowLoginPanel(true)}
-                className="cursor-pointer flex h-9 items-center gap-1.5 rounded-lg bg-primary px-3 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
-              >
-                <KeyRoundIcon className="size-4" />
-                Login
-              </Button>
-            </div>
-          )}
->>>>>>> 73d56b53fbe3cf43585add807eb550b7f440f95b
         </div>
       </header>
     </Fragment>
