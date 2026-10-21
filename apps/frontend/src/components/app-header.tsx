@@ -147,9 +147,9 @@ export function AppHeader({
 
             <nav className="hidden items-center gap-1 text-sm xl:flex">
               {navItems.map((item) => (
-                <a
+                <span
                   key={item.href}
-                  href={item.href}
+                  onMouseUp={() => navigation(item.href)}
                   aria-current={activePath === item.href ? "page" : undefined}
                   className={cn(
                     "rounded-lg px-3 py-2 transition-colors",
@@ -159,7 +159,7 @@ export function AppHeader({
                   )}
                 >
                   {item.label}
-                </a>
+                </span>
               ))}
             </nav>
           </div>

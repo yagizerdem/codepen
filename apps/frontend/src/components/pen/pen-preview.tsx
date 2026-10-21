@@ -8,7 +8,11 @@ const FRAME_SCALE = 4;
 const escapeClosing = (code: string, tag: string) =>
   code.replace(new RegExp(`</(${tag})`, "gi"), "<\\/$1");
 
-function buildDocument({ htmlCode, cssCode, jsCode }: Pick<Pen, "htmlCode" | "cssCode" | "jsCode">) {
+function buildDocument({
+  htmlCode,
+  cssCode,
+  jsCode,
+}: Pick<Pen, "htmlCode" | "cssCode" | "jsCode">) {
   return `<!doctype html><html><head><meta charset="utf-8"><style>${escapeClosing(cssCode, "style")}</style></head><body>${htmlCode}<script>${escapeClosing(jsCode, "script")}</script></body></html>`;
 }
 
