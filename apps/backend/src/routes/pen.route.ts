@@ -68,6 +68,56 @@ router.use(requireAuth);
 /**
  * @openapi
  * /api/pens:
+ *   get:
+ *     tags: [Pens]
+ *     summary: List the current user's pens
+ *     security:
+ *       - cookieAuth: []
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: query
+ *         name: limit
+ *         schema:
+ *           type: integer
+ *           default: 20
+ *           maximum: 100
+ *       - in: query
+ *         name: skip
+ *         schema:
+ *           type: integer
+ *           default: 0
+ *       - in: query
+ *         name: sort
+ *         schema:
+ *           type: string
+ *           enum: [updated, newest, oldest]
+ *           default: updated
+ *     responses:
+ *       200:
+ *         description: Pens of the current user and their total count
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 pens:
+ *                   type: array
+ *                   items:
+ *                     $ref: '#/components/schemas/Pen'
+ *                 penCount:
+ *                   type: integer
+ *       401:
+ *         description: Missing or invalid access token
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Error'
+ */
+router.get("/", asyncHandler(penController.getPens));
+
+/**
+ * @openapi
+ * /api/pens:
  *   post:
  *     tags: [Pens]
  *     summary: Create a pen

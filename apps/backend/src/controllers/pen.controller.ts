@@ -18,6 +18,25 @@ export async function createPen(req: Request, res: Response) {
   );
 }
 
+export async function getPens(req: Request, res: Response) {
+  const limit = Number(req.query.limit);
+  const skip = Number(req.query.skip);
+  const sort = req.query.sort as string;
+
+  const data = await penService.getPens(req.user!.id, {
+    limit: Number.isInteger(limit) && limit >= 1 && limit <= 100 ? limit : 20,
+    skip: Number.isInteger(skip) && skip >= 0 ? skip : 0,
+    sort: sort in penService.PEN_SORTS ? (sort as penService.PenSort) : "updated",
+  });
+
+  return res.status(HttpStatusCode.OK).json(
+    ApiResponse.ok({
+      data,
+      message: "Pens fetched successfully",
+    }),
+  );
+}
+
 export async function updatePen(req: Request<{ id: string }>, res: Response) {
   const user = req.user!;
   const input = parseBody(updatePenSchema, req.body);
