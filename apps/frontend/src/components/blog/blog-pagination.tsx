@@ -7,6 +7,18 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 
+const VISIBLE_PAGES = 5;
+
+/** A sliding window of at most VISIBLE_PAGES page numbers that keeps the current page inside. */
+function getVisiblePages(page: number, pageCount: number) {
+  const size = Math.min(VISIBLE_PAGES, pageCount);
+  const start = Math.min(
+    Math.max(1, page - Math.floor(size / 2)),
+    pageCount - size + 1,
+  );
+  return Array.from({ length: size }, (_, i) => start + i);
+}
+
 export function BlogPagination({
   page,
   pageCount,
@@ -31,7 +43,7 @@ export function BlogPagination({
             }}
           />
         </PaginationItem>
-        {Array.from({ length: pageCount }, (_, i) => i + 1).map((n) => (
+        {getVisiblePages(page, pageCount).map((n) => (
           <PaginationItem key={n}>
             <PaginationLink
               href="#"
@@ -45,6 +57,7 @@ export function BlogPagination({
             </PaginationLink>
           </PaginationItem>
         ))}
+
         <PaginationItem>
           <PaginationNext
             href="#"

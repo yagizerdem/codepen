@@ -1,5 +1,5 @@
-import type { Blog } from "./blog-data";
-import { PostCard } from "./post-card";
+import type { Blog } from "@codepen/shared";
+import { PostCard } from "@components/blog/post-card";
 
 export function PostGrid({ posts }: { posts: Blog[] }) {
   if (posts.length === 0) {
@@ -11,7 +11,7 @@ export function PostGrid({ posts }: { posts: Blog[] }) {
   }
 
   return (
-    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 cursor-pointer">
       {posts.map((post) => (
         <PostCard key={post._id} post={post} />
       ))}

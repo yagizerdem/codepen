@@ -1,8 +1,9 @@
+import { isValidObjectId } from "mongoose";
 import User from "@/models/user.entity.js";
 import { AppError } from "@/utils/error.js";
 
 export async function ensureUserExistById(id: string) {
-  const userFromDb = await User.findById(id);
+  const userFromDb = isValidObjectId(id) ? await User.findById(id) : null;
   if (!userFromDb) {
     throw AppError.notFound({
       message: `User with id ${id} does not exist.`,

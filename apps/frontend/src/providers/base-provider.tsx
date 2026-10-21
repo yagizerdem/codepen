@@ -2,6 +2,7 @@ import { createContext, useContext } from "react";
 import { ThemeProvider } from "@providers/theme-provider";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "./auth-provider";
+import { BlogProvider } from "./blog-provider";
 
 type BaseProviderProps = {
   children: React.ReactNode;
@@ -18,7 +19,9 @@ export function BaseProvider({ children, ...props }: BaseProviderProps) {
     <BaseProviderContext.Provider {...props} value={initialState}>
       <TooltipProvider>
         <ThemeProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <BlogProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </BlogProvider>
         </ThemeProvider>
       </TooltipProvider>
     </BaseProviderContext.Provider>

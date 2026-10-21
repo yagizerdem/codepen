@@ -144,5 +144,3 @@ export class ApiResponse<T = unknown> {
     });
   }
 }
-
-type ApiResponseType<T> = typeof ApiResponse<T>;
