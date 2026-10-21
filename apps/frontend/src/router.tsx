@@ -6,6 +6,7 @@ import SupportPage from "@pages/support-page";
 import DocumentationPage from "@pages/documentation-page";
 import BlogPage from "@pages/blog-page";
 import MyPensPage from "@pages/my-pens-page";
+import ReadPage from "@pages/read-page";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/my-pens",
     element: <MyPensPage />,
+  },
+  {
+    path: "/read/:blogid",
+    element: <ReadPage />,
   },
 ]);
 
