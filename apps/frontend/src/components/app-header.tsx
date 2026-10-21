@@ -1,5 +1,6 @@
 import {
   Bell,
+  BookIcon,
   ChevronDown,
   Code,
   Heart,
@@ -37,6 +38,7 @@ const menuItems = [
   { label: "My Pens", href: "/my-pens", icon: Code },
   { label: "Liked Pens", href: "/liked-pens", icon: Heart },
   { label: "Write Blog", href: "/write-blog", icon: PenIcon },
+  { label: "My Blogs", href: "/my-blogs", icon: BookIcon },
   { label: "Settings", href: "/settings", icon: Settings },
 ];
 

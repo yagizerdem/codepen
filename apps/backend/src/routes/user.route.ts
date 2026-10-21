@@ -95,7 +95,6 @@ const router = Router();
  *     responses:
  *       200:
  *         description: The updated user
->>>>>>> worktree-explore-page
  *         content:
  *           application/json:
  *             schema:

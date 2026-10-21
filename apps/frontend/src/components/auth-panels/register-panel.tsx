@@ -1,4 +1,4 @@
-import React, { useEffect, useState, type FormEvent } from "react";
+import React, { useState, type SubmitEvent } from "react";
 import { z } from "zod";
 import { registerSchema, type RegisterInput } from "@codepen/validator";
 import { Button } from "@/components/ui/button";
@@ -91,7 +91,7 @@ export default function RegisterPanel({
     },
   });
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const trimmedAge = form.age.trim();
