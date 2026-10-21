@@ -8,7 +8,6 @@ import penRoute from "@routes/pen.route.js";
 import likeRoute from "@routes/like.route.js";
 import commentRoute from "@routes/comment.route.js";
 import blogRoute from "@routes/blog.route.js";
-import userRoute from "@routes/user.route.js";
 import swaggerUi from "swagger-ui-express";
 import swaggerJSDoc from "swagger-jsdoc";
 import globalErrorHandler from "@middlewares/global-error-handler.js";
