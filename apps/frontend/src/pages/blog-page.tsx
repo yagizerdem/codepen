@@ -53,16 +53,14 @@ export default function BlogPage() {
     }
   }
 
-  const { data, isError, error, isSuccess } = useQuery<GetBlogResponse["data"]>(
-    {
-      queryKey: ["blogs", page],
-      queryFn: fetchBlogs,
-      placeholderData: {
-        blogs: [],
-        blogCount: 0,
-      } as GetBlogResponse["data"],
-    },
-  );
+  const { data, isError, error } = useQuery<GetBlogResponse["data"]>({
+    queryKey: ["blogs", page],
+    queryFn: fetchBlogs,
+    placeholderData: {
+      blogs: [],
+      blogCount: 0,
+    } as GetBlogResponse["data"],
+  });
 
   useEffect(() => {
     if (isError) {

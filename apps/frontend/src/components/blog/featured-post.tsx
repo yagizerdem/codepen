@@ -1,9 +1,12 @@
+import { useNavigate } from "react-router";
 import { BlogAuthor } from "./blog-author";
 import { BlogCover } from "./blog-cover";
-import { getExcerpt, type Blog } from "./blog-data";
+import { getExcerpt } from "./blog-data";
 import { BlogTags } from "./blog-tags";
+import type { Blog } from "@codepen/shared";
 
 export function FeaturedPost({ post }: { post: Blog }) {
+  const navigate = useNavigate();
   return (
     <article className="grid overflow-hidden rounded-lg bg-muted lg:grid-cols-5">
       <BlogCover
@@ -14,11 +17,20 @@ export function FeaturedPost({ post }: { post: Blog }) {
       <div className="flex flex-col justify-center gap-5 p-8 lg:col-span-2 lg:p-12">
         <BlogTags tags={post.tags} />
         <h2 className="text-3xl font-semibold tracking-tight lg:text-4xl">
-          <a href={`/read/${post._id}`} className="hover:underline">
+          <div
+            onMouseUp={() => navigate(`/read/${post._id}`)}
+            className="hover:underline cursor-pointer"
+          >
             {post.title}
-          </a>
+          </div>
         </h2>
         <p className="leading-relaxed">{getExcerpt(post.body)}</p>
+        <div
+          onMouseUp={() => navigate(`/read/${post._id}`)}
+          className="hover:underline cursor-pointer"
+        >
+          read more ...
+        </div>
         <BlogAuthor authorId={post.author} date={post.createdAt} />
       </div>
     </article>
