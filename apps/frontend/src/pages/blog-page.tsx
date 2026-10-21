@@ -97,8 +97,6 @@ export default function BlogPage() {
     [data],
   );
 
-  console.log(isLoading);
-
   return (
     <AppLayout>
       <div className="min-h-0 flex-1 overflow-y-auto">
@@ -121,7 +119,7 @@ export default function BlogPage() {
               setPage(1);
             }}
           />
-          <PostGrid posts={results} />
+          {!isLoading && <PostGrid posts={results} />}
           <BlogPagination
             page={current}
             pageCount={pageCount}
