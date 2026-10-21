@@ -5,6 +5,7 @@ import {
   Heart,
   KeyRoundIcon,
   LogOut,
+  PenIcon,
   Plus,
   Search,
   Settings,
@@ -35,6 +36,7 @@ const menuItems = [
   { label: "Profile", href: "/profile", icon: User },
   { label: "My Pens", href: "/my-pens", icon: Code },
   { label: "Liked Pens", href: "/liked-pens", icon: Heart },
+  { label: "Write Blog", href: "/write-blog", icon: PenIcon },
   { label: "Settings", href: "/settings", icon: Settings },
 ];
 
@@ -111,7 +113,6 @@ export function AppHeader({
           <RegisterPanel
             className="z-102 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
             onSignIn={() => closeRegisterPanel(() => setShowLoginPanel(true))}
-            onSubmit={() => setShowRegisterPanel(false)}
             onClose={() => closeRegisterPanel()}
             ref={registerPanelRef}
           />
