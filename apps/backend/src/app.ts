@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { AppError } from "@/utils/error.js";
 import authRoute from "@routes/auth.route.js";
+import userRoute from "@routes/user.route.js";
 import penRoute from "@routes/pen.route.js";
 import likeRoute from "@routes/like.route.js";
 import commentRoute from "@routes/comment.route.js";
@@ -47,6 +48,7 @@ app.get("/health", (_req, res) => {
   res.json({ status: "ok", uptime: process.uptime() });
 });
 app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
 app.use("/api/pens", penRoute);
 app.use("/api/likes", likeRoute);
 app.use("/api/comments", commentRoute);
