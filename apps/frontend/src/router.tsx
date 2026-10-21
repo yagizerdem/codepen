@@ -8,6 +8,8 @@ import BlogPage from "@pages/blog-page";
 import MyPensPage from "@pages/my-pens-page";
 import ReadPage from "@pages/read-page";
 import ExplorePage from "@pages/explore-page";
+import RegisterPage from "@pages/register-page";
+import LoginPage from "./pages/login-page";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +47,14 @@ const router = createBrowserRouter([
   {
     path: "/read/:blogid",
     element: <ReadPage />,
+  },
+  {
+    path: "/register",
+    element: <RegisterPage />,
+  },
+  {
+    path: "/login",
+    element: <LoginPage />,
   },
 ]);
 

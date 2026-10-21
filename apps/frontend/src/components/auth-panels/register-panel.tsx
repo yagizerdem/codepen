@@ -51,15 +51,13 @@ const initialFormState: RegisterFormState = {
 };
 
 interface RegisterPanelProps {
-  onSubmit?: (data: RegisterInput) => void | Promise<void>;
   onSignIn?: () => void;
   onClose?: () => void;
   ref?: React.Ref<HTMLDivElement>;
-  className: string;
+  className?: string;
 }
 
 export default function RegisterPanel({
-  onSubmit,
   onSignIn,
   onClose,
   ref,

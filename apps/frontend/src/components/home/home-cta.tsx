@@ -19,7 +19,7 @@ export function HomeCta() {
           </p>
         </div>
         <Link
-          to="/new-pen"
+          to="/register"
           className={cn(buttonVariants({ size: "lg" }), "relative")}
         >
           Sign up free
