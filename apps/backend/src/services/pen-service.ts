@@ -42,6 +42,25 @@ export async function createPen(
   return pen;
 }
 
+export const PEN_SORTS = {
+  updated: { updatedAt: -1 },
+  newest: { createdAt: -1 },
+  oldest: { createdAt: 1 },
+} as const;
+
+export type PenSort = keyof typeof PEN_SORTS;
+
+export async function getPens(
+  userId: string,
+  { limit, skip, sort }: { limit: number; skip: number; sort: PenSort },
+) {
+  const [pens, penCount] = await Promise.all([
+    Pen.find({ userId }).sort(PEN_SORTS[sort]).skip(skip).limit(limit),
+    Pen.countDocuments({ userId }),
+  ]);
+  return { pens, penCount };
+}
+
 /**
  * Owner-scoped lookup: a pen that is missing or belongs to someone else is reported
  * the same way (404), so pen ids of other users are not revealed.
