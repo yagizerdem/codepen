@@ -1,7 +1,7 @@
 import type { Pen } from "@codepen/shared";
 import { cn } from "cn";
 
-// The pen is rendered at this size and scaled down to fit the card.
+// By default the pen is rendered at this multiple of the card size and scaled down to fit.
 const FRAME_SCALE = 4;
 
 // A literal closing tag inside the code would end the wrapping element early.
@@ -16,9 +16,11 @@ function buildDocument({ htmlCode, cssCode, jsCode }: Pick<Pen, "htmlCode" | "cs
 export function PenPreview({
   pen,
   className,
+  scale = FRAME_SCALE,
 }: {
   pen: Pick<Pen, "htmlCode" | "cssCode" | "jsCode">;
   className?: string;
+  scale?: number;
 }) {
   return (
     <div
@@ -36,9 +38,9 @@ export function PenPreview({
         srcDoc={buildDocument(pen)}
         className="pointer-events-none absolute top-0 left-0 origin-top-left border-0"
         style={{
-          width: `${FRAME_SCALE * 100}%`,
-          height: `${FRAME_SCALE * 100}%`,
-          transform: `scale(${1 / FRAME_SCALE})`,
+          width: `${scale * 100}%`,
+          height: `${scale * 100}%`,
+          transform: `scale(${1 / scale})`,
         }}
       />
     </div>
