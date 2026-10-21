@@ -14,7 +14,7 @@ export function FeaturedPost({ post }: { post: Blog }) {
       <div className="flex flex-col justify-center gap-5 p-8 lg:col-span-2 lg:p-12">
         <BlogTags tags={post.tags} />
         <h2 className="text-3xl font-semibold tracking-tight lg:text-4xl">
-          <a href={`/blog/${post._id}`} className="hover:underline">
+          <a href={`/read/${post._id}`} className="hover:underline">
             {post.title}
           </a>
         </h2>

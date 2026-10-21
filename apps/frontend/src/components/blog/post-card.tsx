@@ -10,7 +10,7 @@ export function PostCard({ post }: { post: Blog }) {
       <div className="flex flex-1 flex-col gap-4 p-6">
         <BlogTags tags={post.tags} />
         <h3 className="text-xl font-semibold leading-snug tracking-tight">
-          <a href={`/blog/${post._id}`} className="hover:underline">
+          <a href={`/read/${post._id}`} className="hover:underline">
             {post.title}
           </a>
         </h3>
