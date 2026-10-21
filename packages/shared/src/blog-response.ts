@@ -3,7 +3,7 @@ import type { ApiResponse } from "./api-response.js";
 // Mirrors apps/backend/src/models/blog.entity.ts (author is the raw ObjectId ref).
 export type Blog = {
   _id: string;
-  author: string;
+  author: string; // hold the raw ObjectId reference to the author
   title: string;
   body: string;
   tags: string[];
