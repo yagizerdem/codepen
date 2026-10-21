@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
 import type { GetPensResponse, PenSort } from "@codepen/shared";
@@ -9,8 +9,8 @@ import { MyPensEmpty } from "@/components/my-pens/my-pens-empty";
 import { MyPensHeader } from "@/components/my-pens/my-pens-header";
 import { MyPensToolbar } from "@/components/my-pens/my-pens-toolbar";
 import { PenActions } from "@/components/my-pens/pen-actions";
-import { PenGrid } from "@/components/pens/pen-grid";
-import { PenGridSkeleton } from "@/components/pens/pen-grid-skeleton";
+import { PenGrid } from "@/components/pen/pen-grid";
+import { PenGridSkeleton } from "@/components/pen/pen-grid-skeleton";
 import { AppLayout } from "@/layouts/app-layout";
 
 const PAGE_SIZE = 12;
