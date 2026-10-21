@@ -31,8 +31,10 @@ export class ApiFeatures {
     return this;
   }
 
-  public limit() {
-    if (this.queryString.limit) {
+  public limit(_limit?: number) {
+    if (_limit) {
+      this.mongooseQuery = this.mongooseQuery.limit(Number(_limit));
+    } else if (this.queryString.limit) {
       this.mongooseQuery = this.mongooseQuery.limit(
         Number(this.queryString.limit),
       );
@@ -40,8 +42,10 @@ export class ApiFeatures {
     return this;
   }
 
-  public skip() {
-    if (this.queryString.skip) {
+  public skip(_skip?: number) {
+    if (_skip) {
+      this.mongooseQuery = this.mongooseQuery.skip(Number(_skip));
+    } else if (this.queryString.skip) {
       this.mongooseQuery = this.mongooseQuery.skip(
         Number(this.queryString.skip),
       );

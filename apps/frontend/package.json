@@ -13,6 +13,7 @@
     "@base-ui/react": "^1.9.0",
     "@codepen/shared": "^1.0.0",
     "@codepen/validator": "^1.0.0",
+    "@faker-js/faker": "^10.6.0",
     "@fontsource-variable/geist": "^5.3.0",
     "@monaco-editor/react": "^4.7.0",
     "@shadcn/react": "^0.3.1",
