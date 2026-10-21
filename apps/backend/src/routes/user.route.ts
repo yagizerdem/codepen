@@ -108,13 +108,7 @@ const router = Router();
  *                   example: 200
  *                 message:
  *                   type: string
- *                   example: Author retrieved successfully
- *                 data:
- *                   $ref: '#/components/schemas/User'
  *                   example: User updated successfully
- *                 success:
- *                   type: boolean
- *                   example: true
  *                 data:
  *                   $ref: '#/components/schemas/User'
  *       400:

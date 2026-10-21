@@ -54,7 +54,7 @@ export function AppHeader({
   hasNotifications = false,
 }: AppHeaderProps) {
   const navigation = useNavigate();
-  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const { isLoggedIn, setIsLoggedIn, setUser } = useAuth();
   const [showRegisterPanel, setShowRegisterPanel] = useState<boolean>(false);
   const [showLoginPanel, setShowLoginPanel] = useState<boolean>(false);
   const registerPanelRef = useRef<HTMLDivElement>(null);
@@ -92,6 +92,7 @@ export function AppHeader({
         position: "top-right",
       });
       setIsLoggedIn(false);
+      setUser(null);
     },
     onError: (error: any) => {
       toast(error.message || "Logout failed", {

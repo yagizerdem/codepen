@@ -51,7 +51,7 @@ export default function LoginPanel({
 }: LoginPanelProps) {
   const [form, setForm] = useState<LoginFormState>(initialFormState);
   const [errors, setErrors] = useState<FieldErrors>({});
-  const { setIsLoggedIn } = useAuth();
+  const { setIsLoggedIn, refreshUser } = useAuth();
 
   function update<K extends keyof LoginFormState>(
     key: K,
@@ -68,6 +68,7 @@ export default function LoginPanel({
       onClose?.();
       toast("Logged in successfully", { position: "top-right" });
       setIsLoggedIn(true);
+      void refreshUser();
     },
     onError: (error) => {
       toast(error?.message ?? "An error occurred", { position: "top-right" });
