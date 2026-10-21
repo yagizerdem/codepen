@@ -137,13 +137,13 @@ export function AppHeader({
       <header className="fixed inset-x-0 top-0 z-50 bg-background/95 shadow-[0_1px_8px_rgba(0,0,0,0.4)] backdrop-blur-md ">
         <div className="flex h-16 w-full items-center justify-between gap-3 px-3">
           <div className="flex items-center gap-5">
-            <a
-              href="/"
-              className="flex items-center gap-1.5 text-lg font-bold tracking-tight"
+            <span
+              onMouseUp={() => navigation("/")}
+              className="flex items-center gap-1.5 text-lg font-bold tracking-tight cursor-pointer"
             >
               CodePen
               <span className="inline-block size-1.5 rounded-full bg-primary" />
-            </a>
+            </span>
 
             <nav className="hidden items-center gap-1 text-sm xl:flex">
               {navItems.map((item) => (

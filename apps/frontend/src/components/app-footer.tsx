@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router";
+
 const footerLinks = [
   { label: "Docs", href: "/documentation" },
   { label: "Blog", href: "/blog" },
@@ -6,6 +8,8 @@ const footerLinks = [
 ];
 
 export function AppFooter() {
+  const navigation = useNavigate();
+
   return (
     <footer className="mt-8 w-full bg-muted py-8">
       <div className="mx-auto flex w-full max-w-7xl flex-col items-center justify-between gap-3 px-3 text-sm text-muted-foreground md:flex-row">
@@ -16,13 +20,13 @@ export function AppFooter() {
 
         <div className="flex items-center gap-5">
           {footerLinks.map((link) => (
-            <a
+            <span
               key={link.label}
-              href={link.href}
-              className="transition-colors hover:text-foreground"
+              onMouseUp={() => navigation(link.href)}
+              className="transition-colors hover:text-foreground cursor-pointer"
             >
               {link.label}
-            </a>
+            </span>
           ))}
         </div>
       </div>
