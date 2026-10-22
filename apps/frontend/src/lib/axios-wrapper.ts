@@ -74,6 +74,7 @@ API.interceptors.response.use(
     original._retry = true;
 
     try {
+      console.log("Refreshing session...");
       await refreshSession();
     } catch {
       // Refresh token is expired/invalid: the session is over.
