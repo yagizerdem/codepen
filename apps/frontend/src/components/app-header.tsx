@@ -43,16 +43,17 @@ const menuItems = [
 ];
 
 type AppHeaderProps = {
-  username: string;
   activePath?: string;
   hasNotifications?: boolean;
 };
 
 export function AppHeader({
-  username,
   activePath,
   hasNotifications = false,
 }: AppHeaderProps) {
+  const { user } = useAuth();
+  const username = user?.username ?? "unknown";
+
   const navigation = useNavigate();
   const { isLoggedIn, setIsLoggedIn, setUser } = useAuth();
   const [showRegisterPanel, setShowRegisterPanel] = useState<boolean>(false);
