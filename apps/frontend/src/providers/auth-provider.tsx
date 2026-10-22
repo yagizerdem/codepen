@@ -5,7 +5,8 @@ import {
   useEffect,
   useState,
 } from "react";
-import API from "@/lib/axios-wrapper";
+import API, { AUTH_LOGOUT_EVENT } from "@/lib/axios-wrapper";
+import globalEventEmitter from "@/event-emitter";
 
 type AuthProviderProps = {
   children: React.ReactNode;
@@ -55,6 +56,17 @@ export function AuthProvider({ children, ...props }: AuthProviderProps) {
       setUser(null);
       setIsLoggedIn(false);
     }
+  }, []);
+
+  // The axios interceptor fires this when the refresh token is no longer valid.
+  useEffect(() => {
+    const onLogout = () => {
+      setUser(null);
+      setIsLoggedIn(false);
+    };
+    globalEventEmitter.addEventListener(AUTH_LOGOUT_EVENT, onLogout);
+    return () =>
+      globalEventEmitter.removeEventListener(AUTH_LOGOUT_EVENT, onLogout);
   }, []);
 
   useEffect(() => {
